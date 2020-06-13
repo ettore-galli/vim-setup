@@ -14,6 +14,7 @@ module InstrumentModel.Model where
         compare _ X = GT
         compare (Tasto x) (Tasto y) = compare x y
 
+
     getPosTasto :: Corda -> Int
     getPosTasto c = if (tasto c) == X then 0 else extractPos $ tasto c
         where extractPos (Tasto t) = t
@@ -56,6 +57,7 @@ module InstrumentModel.Model where
     eseguiNota _ _ [] = []
     eseguiNota o (Tasto t) (u:us) = (if (ordine u) == o then u{tasto=(Tasto t)} else u) : (eseguiNota o (Tasto t) us)
 
+
     cercaDiteggiatureIntervallo :: [Corda] -> Corda -> Intervallo -> [Corda]
     cercaDiteggiatureIntervallo [] _ _ = []
     cercaDiteggiatureIntervallo (s:ss) cref i = (if ((s /= cref) && ((tasto s)) == X) 
@@ -76,17 +78,23 @@ module InstrumentModel.Model where
     distanzaPosizioni :: Corda -> Corda -> Int
     distanzaPosizioni c d = abs ((getPosTasto c) - (getPosTasto d))
 
-    -- La migliore è la piu vicina
-    calcolaMiglioreDiteggiaturaIntervallo :: Corda -> [Corda] -> Corda
-    calcolaMiglioreDiteggiaturaIntervallo cref (f:fs) = foldl (\acc curr -> if (distanzaPosizioni acc curr) <= (distanzaPosizioni cref curr) then acc else curr ) f (f:fs)
 
-    impostaDiteggiaturaStrumento  :: Strumento -> Corda -> Strumento
-    impostaDiteggiaturaStrumento [] _ = [] 
-    impostaDiteggiaturaStrumento (s:ss) c = (if (s==c) then s{tasto=(tasto c)} else s) : (impostaDiteggiaturaStrumento ss c)
+    -- La migliore è la piu vicina
+    calcolaMiglioreDiteggiaturaIntervallo :: Corda -> [Corda] -> Maybe Corda
+    calcolaMiglioreDiteggiaturaIntervallo cref [] = Nothing 
+    calcolaMiglioreDiteggiaturaIntervallo cref (f:fs) = Just (foldl (\acc curr -> if (distanzaPosizioni cref curr) <= (distanzaPosizioni cref acc) then curr else acc ) f (f:fs))
+
+
+    impostaDiteggiaturaStrumento  :: Strumento -> Maybe Corda -> Strumento
+    impostaDiteggiaturaStrumento [] _ = []
+    impostaDiteggiaturaStrumento s Nothing = s 
+    impostaDiteggiaturaStrumento (s:ss) (Just c) = (if (s==c) then s{tasto=(tasto c)} else s) : (impostaDiteggiaturaStrumento ss (Just c))
+
 
     cordaRif :: Strumento -> Corda
     cordaRif [] = Corda 0 0 X
     cordaRif (s:ss) = if (tasto s /= X) then s else (cordaRif ss)
+
 
     calcolaDiteggiaturaAccordo :: Strumento -> Accordo -> Strumento
     calcolaDiteggiaturaAccordo s [] = s

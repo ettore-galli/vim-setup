@@ -4,7 +4,10 @@ module InstrumentModel.Ukulele where
     uku5 :: Strumento
     uku5 = [(Corda 1 0 X), (Corda 2 7 X), (Corda 3 14 X), (Corda 4 21 X)] 
     
-    start = eseguiNota 2 (Tasto 3) uku5
+    uku35 :: Strumento
+    uku35 = [(Corda 2 7 X), (Corda 3 14 X), (Corda 4 21 X)] 
+
+    start = eseguiNota 2 (Tasto 3) uku35
 
     chordsSpec = [
         ("2: Maggiore", start, [4, 7]),
@@ -25,6 +28,7 @@ module InstrumentModel.Ukulele where
     
     maggiore = [4, 7]
     settima = [4, 10]
+
     corda = cordaRif start
 
     ditegg3a = cercaDiteggiatureIntervalloAltre start corda 4
