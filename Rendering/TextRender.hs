@@ -43,11 +43,11 @@ renderStrumento descr s = descr ++ "  " ++ (short s) ++ newLine ++
                             "     " ++ (renderCapo minp) ++ newLine ++ 
                             renderRun minp maxp s
       where minp = getMinPos s
-            maxp = minp + 5 --getMaxPos s  
+            maxp = minp + 5   
             renderRun :: Int -> Int -> Strumento -> String
             renderRun _ _ [] = ""
             renderRun minp maxp (s:ss) = (renderRun minp maxp ss) ++ (renderCorda minp maxp s) ++ newLine
 
 short :: Strumento -> String
 short [] = ""
-short (s:ss) = (show $ getPosTasto s) ++ "." ++ (short ss)
+short (s:ss) = (if (tasto s == X) then "X" else (show $ getPosTasto s)) ++ "." ++ (short ss)

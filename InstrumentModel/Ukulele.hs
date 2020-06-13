@@ -41,8 +41,16 @@ module InstrumentModel.Ukulele where
 
     chord7 = calcolaDiteggiaturaAccordo start settima
 
-    terza = calcolaMiglioreDiteggiaturaIntervallo corda (
-        cercaDiteggiatureIntervalloAltre start corda 4
-        )  
+    crif = cordaRif start
+ 
+    da = cercaDiteggiatureIntervalloAltre start crif 4
+    das = calcolaMiglioreDiteggiaturaIntervallo crif da
+    m1 = impostaDiteggiaturaStrumento start das
     
+    db = cercaDiteggiatureIntervalloAltre m1 crif 10
+    dbs = calcolaMiglioreDiteggiaturaIntervallo crif db
+    m2 = impostaDiteggiaturaStrumento m1 dbs
+
+ 
+ 
          
