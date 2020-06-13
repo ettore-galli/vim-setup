@@ -1,2 +1,2 @@
-# chords
+# Chords
 Chords calulator
