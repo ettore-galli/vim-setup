@@ -15,7 +15,8 @@ module InstrumentModel.Ukulele where
         ("2: Minore7no5", start, [3, 10])
         ]
 
-    chords = map (\ (desc, start, chord) -> calcolaDiteggiaturaAccordo start chord) chordsSpec
+
+    chords = map (\ (desc, start, chord) -> (desc, calcolaDiteggiaturaAccordo start chord)) chordsSpec
 
     chord1 = eseguiNota 1 (Tasto 7) uku5
     chord2 = eseguiNota 2 (Tasto 6) chord1
@@ -23,9 +24,18 @@ module InstrumentModel.Ukulele where
     chord4 = eseguiNota 4 (Tasto 4) chord3
     
     maggiore = [4, 7]
+    settima = [4, 10]
+    corda = cordaRif start
+
+    ditegg3a = cercaDiteggiatureIntervalloAltre start corda 4
+    ditegg3s = calcolaMiglioreDiteggiaturaIntervallo corda ditegg3a
+    step1 = impostaDiteggiaturaStrumento start ditegg3s
     
-    corda = (start!!1)
-    chordx = calcolaDiteggiaturaAccordo start maggiore
+    ditegg7a = cercaDiteggiatureIntervalloAltre step1 corda 10
+    ditegg7s = calcolaMiglioreDiteggiaturaIntervallo corda ditegg7a
+    step2 = impostaDiteggiaturaStrumento step1 ditegg7s
+
+    chord7 = calcolaDiteggiaturaAccordo start settima
 
     terza = calcolaMiglioreDiteggiaturaIntervallo corda (
         cercaDiteggiatureIntervalloAltre start corda 4

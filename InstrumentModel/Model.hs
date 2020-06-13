@@ -69,7 +69,7 @@ module InstrumentModel.Model where
 
     cercaDiteggiatureIntervalloAltre :: [Corda] -> Corda -> Intervallo -> [Corda]
     cercaDiteggiatureIntervalloAltre s cref i = cercaDiteggiatureIntervallo 
-            (filter (\c -> c /= cref) s)
+            (filter (\c -> (tasto c) == X) s)
             cref
             i
 
