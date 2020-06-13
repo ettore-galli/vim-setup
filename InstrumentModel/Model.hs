@@ -84,9 +84,13 @@ module InstrumentModel.Model where
     impostaDiteggiaturaStrumento [] _ = [] 
     impostaDiteggiaturaStrumento (s:ss) c = (if (s==c) then s{tasto=(tasto c)} else s) : (impostaDiteggiaturaStrumento ss c)
 
-    calcolaDiteggiaturaAccordo :: Strumento -> Corda -> Accordo -> Strumento
-    calcolaDiteggiaturaAccordo s  _ []  = s
-    calcolaDiteggiaturaAccordo s cref (a:as) = calcolaDiteggiaturaAccordo 
+    cordaRif :: Strumento -> Corda
+    cordaRif [] = Corda 0 0 X
+    cordaRif (s:ss) = if (tasto s /= X) then s else (cordaRif ss)
+
+    calcolaDiteggiaturaAccordo :: Strumento -> Accordo -> Strumento
+    calcolaDiteggiaturaAccordo s [] = s
+    calcolaDiteggiaturaAccordo s (a:as) = calcolaDiteggiaturaAccordo 
                 (
                     impostaDiteggiaturaStrumento s (
                     calcolaMiglioreDiteggiaturaIntervallo cref (
@@ -94,14 +98,10 @@ module InstrumentModel.Model where
                         )
                     )
                 )
-                cref
                 as 
+            where cref = cordaRif s
         
-    -- calcolaMiglioreDiteggiaturaIntervallo (chord1!!0) ( cercaDiteggiatureIntervalloAltre chord1 (chord1!!0) 7)
-
-
-
-
+     
 
 
     {-
