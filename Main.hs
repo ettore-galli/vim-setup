@@ -13,10 +13,5 @@ renderChordsList ((descr, s) : ss) = do
 main :: IO ()
 main = do 
         renderChordsList chords
-        -- putStrLn $ renderStrumento "" uku5
-        -- putStrLn $ renderStrumento "" chord1
-        -- putStrLn $ renderStrumento "" chord2
-        -- putStrLn $ renderStrumento "" chord3
-        -- putStrLn $ renderStrumento "" chord4
-        -- putStrLn $ renderStrumento "Accordo x" chordx
+ 
 

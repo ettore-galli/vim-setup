@@ -6,6 +6,7 @@ import InstrumentModel.Model
 newLine :: String
 newLine = "\r\n"
 
+
 renderCordaTastata:: Int -> Int -> Corda -> String
 renderCordaTastata minp mp c = if mp >= minp 
                                 then 
@@ -13,17 +14,20 @@ renderCordaTastata minp mp c = if mp >= minp
                                     ++ (if (mp == getPosTasto c) then "|-o-" else "|---")
                                 else " "    
 
+
 renderCordaMuta:: Int -> Int -> String
 renderCordaMuta minp mp = if mp >= minp 
                                 then 
                                     (renderCordaMuta minp (mp - 1)) ++  "|---"
                                 else "X"  
 
+
 renderCorda :: Int -> Int -> Corda -> String
 renderCorda minp maxp c = (show $ ordine c) ++ ": " ++ 
     if (tasto c) == X then renderCordaMuta minp maxp 
     else renderCordaTastata minp maxp c
  
+
 renderCapo :: Int -> String
 renderCapo cp  
     | cp == 0 = ""
@@ -35,7 +39,7 @@ renderCapo cp
 
 renderStrumento :: String -> Strumento -> String
 renderStrumento _ [] = ""
-renderStrumento descr s = descr ++ newLine ++
+renderStrumento descr s = descr ++ "  " ++ (short s) ++ newLine ++
                             "     " ++ (renderCapo minp) ++ newLine ++ 
                             renderRun minp maxp s
       where minp = getMinPos s
@@ -46,4 +50,4 @@ renderStrumento descr s = descr ++ newLine ++
 
 short :: Strumento -> String
 short [] = ""
-short (s:ss) = (show $ getPosTasto s) ++ (short ss)
+short (s:ss) = (show $ getPosTasto s) ++ "." ++ (short ss)

@@ -60,7 +60,7 @@ module InstrumentModel.Model where
 
     cercaDiteggiatureIntervallo :: [Corda] -> Corda -> Intervallo -> [Corda]
     cercaDiteggiatureIntervallo [] _ _ = []
-    cercaDiteggiatureIntervallo (s:ss) cref i = (if ((s /= cref) && ((tasto s)) == X) 
+    cercaDiteggiatureIntervallo (s:ss) cref i = (if ((s /= cref) && ((tasto s)) == X && nTasto > 0) 
                                                 then s{tasto = (Tasto nTasto)}
                                                 else s) : (cercaDiteggiatureIntervallo ss cref i)
         where   accordaturaRef = mod (accordatura cref) 12 -- accordatura corda vuota
