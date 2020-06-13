@@ -33,11 +33,13 @@ renderCapo cp
     | otherwise = (show cp) ++ "th"
    
 
-renderStrumento :: Strumento -> String
-renderStrumento [] = ""
-renderStrumento s = "     " ++ (renderCapo minp) ++ newLine ++ renderRun minp maxp s
+renderStrumento :: String -> Strumento -> String
+renderStrumento _ [] = ""
+renderStrumento descr s = descr ++ newLine ++
+                            "     " ++ (renderCapo minp) ++ newLine ++ 
+                            renderRun minp maxp s
       where minp = getMinPos s
             maxp = minp + 3 --getMaxPos s  
             renderRun :: Int -> Int -> Strumento -> String
             renderRun _ _ [] = ""
-            renderRun minp maxp (s:ss) = (renderRun minp maxp ss) ++ newLine ++ (renderCorda minp maxp s)  
+            renderRun minp maxp (s:ss) = (renderRun minp maxp ss) ++ (renderCorda minp maxp s) ++ newLine
