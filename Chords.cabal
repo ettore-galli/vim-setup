@@ -16,7 +16,7 @@ maintainer:          ettore.galli@gmail.com
 build-type:          Simple
 extra-source-files:  CHANGELOG.md, README.md
 
-executable Chords-main
+executable chords-main
   main-is:             Main.hs
   other-modules:       InstrumentModel.Model 
                        , InstrumentModel.Ukulele 
@@ -27,11 +27,14 @@ executable Chords-main
   -- hs-source-dirs:
   default-language:    Haskell2010
 
-test-suite Tests
+test-suite chords-test
   type:                 exitcode-stdio-1.0
+  main-is:              Test.hs
   build-depends:        base >=4.13 && <4.14
+                        , test-framework
+                        , test-framework-hunit
                         , HUnit 
-                        , Chords
+                        , chords
   hs-source-dirs:       tests
   default-language:     Haskell2010
-  main-is:              Test.hs
+  
