@@ -1,7 +1,4 @@
 import Test.Hspec
--- import Test.QuickCheck
--- import Control.Exception (evaluate)
-
 import InstrumentModel.Model
 
 main :: IO ()
