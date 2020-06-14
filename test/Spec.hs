@@ -1,2 +1,11 @@
+import Test.Hspec
+-- import Test.QuickCheck
+-- import Control.Exception (evaluate)
+
+import InstrumentModel.Model
+
 main :: IO ()
-main = putStrLn "Test suite not yet implemented"
+main = hspec $ do
+  describe "Prelude.head" $ do
+    it "getPosTasto" $ do
+      (getPosTasto (Corda 1 0 (Tasto 1))) `shouldBe` (1 :: Int)

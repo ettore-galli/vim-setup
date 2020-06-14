@@ -35,6 +35,11 @@ executables:
     - -with-rtsopts=-N
     dependencies:
     - Chords
+    exposed-modules:
+    - InstrumentModel.Model
+    - InstrumentModel.Ukulele 
+    - Rendering.TextRender 
+ 
 
 tests:
   Chords-test:
@@ -45,4 +50,5 @@ tests:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
+    - hspec  
     - Chords

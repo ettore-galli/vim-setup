@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 7282fee2e1bb26ff076d0f41ecf42762990ea67c8a7113b1c8e0688b54d12d33
+-- hash: 8ba985d4dd5aaaf20834f751c4102341f72d1e3d69e0a0106d2ba6f01eb7caf6
 
 name:           Chords
 version:        0.1.0.0
@@ -27,7 +27,9 @@ source-repository head
 
 library
   exposed-modules:
-      Lib
+      InstrumentModel.Model
+      InstrumentModel.Ukulele
+      Rendering.TextRender
   other-modules:
       Paths_Chords
   hs-source-dirs:
@@ -39,9 +41,6 @@ library
 executable Chords-exe
   main-is: Main.hs
   other-modules:
-      InstrumentModel.Model
-      InstrumentModel.Ukulele
-      Rendering.TextRender
       Paths_Chords
   hs-source-dirs:
       app
@@ -62,4 +61,5 @@ test-suite Chords-test
   build-depends:
       Chords
     , base >=4.7 && <5
+    , hspec
   default-language: Haskell2010
