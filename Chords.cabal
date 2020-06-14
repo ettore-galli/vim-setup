@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 8ba985d4dd5aaaf20834f751c4102341f72d1e3d69e0a0106d2ba6f01eb7caf6
+-- hash: 59c2933936a1f27129b90d87211c79a620f4ac6ce77fb007cc192ac8162b1559
 
 name:           Chords
 version:        0.1.0.0
@@ -59,7 +59,6 @@ test-suite Chords-test
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      Chords
-    , base >=4.7 && <5
+      base >=4.7 && <5
     , hspec
   default-language: Haskell2010
