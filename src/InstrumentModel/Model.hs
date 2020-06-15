@@ -31,8 +31,8 @@ module InstrumentModel.Model where
 
     type FrettedInstrument = [InstrumentString] 
 
-    type Intervallo = Int
-    type Accordo = [Intervallo]
+    type ChromaticInterval = Int
+    type Accordo = [ChromaticInterval]
 
 
     getNoMute :: FrettedInstrument -> FrettedInstrument
@@ -58,19 +58,19 @@ module InstrumentModel.Model where
     eseguiNota o (Fret t) (u:us) = (if (stringNumber u) == o then u{fingeredFret=(Fret t)} else u) : (eseguiNota o (Fret t) us)
 
 
-    cercaDiteggiatureIntervallo :: [InstrumentString] -> InstrumentString -> Intervallo -> [InstrumentString]
-    cercaDiteggiatureIntervallo [] _ _ = []
-    cercaDiteggiatureIntervallo (s:ss) cref i = (if ((s /= cref) && ((fingeredFret s)) == X && nFret > 0) 
+    cercaDiteggiatureChromaticInterval :: [InstrumentString] -> InstrumentString -> ChromaticInterval -> [InstrumentString]
+    cercaDiteggiatureChromaticInterval [] _ _ = []
+    cercaDiteggiatureChromaticInterval (s:ss) cref i = (if ((s /= cref) && ((fingeredFret s)) == X && nFret > 0) 
                                                 then s{fingeredFret = (Fret nFret)}
-                                                else s) : (cercaDiteggiatureIntervallo ss cref i)
+                                                else s) : (cercaDiteggiatureChromaticInterval ss cref i)
         where   stringTuningRef = mod (stringTuning cref) 12 -- stringTuning corda vuota
                 notaRef = mod ((stringTuning cref) + (getStringKeyPosition cref)) 12 -- nota risultante base
                 notaX = notaRef + i -- nota desiderata
                 nFret = mod (notaX - (stringTuning s)) 12 -- fingeredFret sulla corda
 
 
-    cercaDiteggiatureIntervalloAltre :: [InstrumentString] -> InstrumentString -> Intervallo -> [InstrumentString]
-    cercaDiteggiatureIntervalloAltre s cref i = cercaDiteggiatureIntervallo 
+    cercaDiteggiatureChromaticIntervalAltre :: [InstrumentString] -> InstrumentString -> ChromaticInterval -> [InstrumentString]
+    cercaDiteggiatureChromaticIntervalAltre s cref i = cercaDiteggiatureChromaticInterval 
             (filter (\c -> (fingeredFret c) == X) s)
             cref
             i
@@ -80,9 +80,9 @@ module InstrumentModel.Model where
 
 
     -- La migliore è la piu vicina
-    calcolaMiglioreDiteggiaturaIntervallo :: InstrumentString -> [InstrumentString] -> Maybe InstrumentString
-    calcolaMiglioreDiteggiaturaIntervallo cref [] = Nothing 
-    calcolaMiglioreDiteggiaturaIntervallo cref (f:fs) = Just (foldl (\acc curr -> if (distanzaPosizioni cref curr) <= (distanzaPosizioni cref acc) then curr else acc ) f (f:fs))
+    calcolaMiglioreDiteggiaturaChromaticInterval :: InstrumentString -> [InstrumentString] -> Maybe InstrumentString
+    calcolaMiglioreDiteggiaturaChromaticInterval cref [] = Nothing 
+    calcolaMiglioreDiteggiaturaChromaticInterval cref (f:fs) = Just (foldl (\acc curr -> if (distanzaPosizioni cref curr) <= (distanzaPosizioni cref acc) then curr else acc ) f (f:fs))
 
 
     impostaDiteggiaturaFrettedInstrument  :: FrettedInstrument -> Maybe InstrumentString -> FrettedInstrument
@@ -100,8 +100,8 @@ module InstrumentModel.Model where
     calcolaDiteggiaturaAccordo str acc = foldl 
                         (\s i -> 
                             impostaDiteggiaturaFrettedInstrument s (
-                                calcolaMiglioreDiteggiaturaIntervallo cref (
-                                        cercaDiteggiatureIntervalloAltre str cref i
+                                calcolaMiglioreDiteggiaturaChromaticInterval cref (
+                                        cercaDiteggiatureChromaticIntervalAltre str cref i
                                     )
                                 )
                             ) 

@@ -31,24 +31,24 @@ module InstrumentModel.Ukulele where
 
     corda = cordaRif start
 
-    ditegg3a = cercaDiteggiatureIntervalloAltre start corda 4
-    ditegg3s = calcolaMiglioreDiteggiaturaIntervallo corda ditegg3a
+    ditegg3a = cercaDiteggiatureChromaticIntervalAltre start corda 4
+    ditegg3s = calcolaMiglioreDiteggiaturaChromaticInterval corda ditegg3a
     step1 = impostaDiteggiaturaFrettedInstrument start ditegg3s
     
-    ditegg7a = cercaDiteggiatureIntervalloAltre step1 corda 10
-    ditegg7s = calcolaMiglioreDiteggiaturaIntervallo corda ditegg7a
+    ditegg7a = cercaDiteggiatureChromaticIntervalAltre step1 corda 10
+    ditegg7s = calcolaMiglioreDiteggiaturaChromaticInterval corda ditegg7a
     step2 = impostaDiteggiaturaFrettedInstrument step1 ditegg7s
 
     chord7 = calcolaDiteggiaturaAccordo start settima
 
     crif = cordaRif start
  
-    da = cercaDiteggiatureIntervalloAltre start crif 4
-    das = calcolaMiglioreDiteggiaturaIntervallo crif da
+    da = cercaDiteggiatureChromaticIntervalAltre start crif 4
+    das = calcolaMiglioreDiteggiaturaChromaticInterval crif da
     m1 = impostaDiteggiaturaFrettedInstrument start das
     
-    db = cercaDiteggiatureIntervalloAltre m1 crif 10
-    dbs = calcolaMiglioreDiteggiaturaIntervallo crif db
+    db = cercaDiteggiatureChromaticIntervalAltre m1 crif 10
+    dbs = calcolaMiglioreDiteggiaturaChromaticInterval crif db
     m2 = impostaDiteggiaturaFrettedInstrument m1 dbs
 
  
