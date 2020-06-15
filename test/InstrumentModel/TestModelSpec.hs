@@ -7,6 +7,7 @@ module InstrumentModel.TestModelSpec (spec) where
     spec = do 
         testgetInstrumentString
         testGetNoMute
+        testGetMinPos
           
 
     testgetInstrumentString :: Spec
@@ -22,8 +23,16 @@ module InstrumentModel.TestModelSpec (spec) where
     testGetNoMute = do 
         describe "TestModel.Model" $ do
             it "testGetNoMute  " $ do
-                getNoMute testGetNoMuteCase `shouldBe` expectedNoMuteStrings
+                getNoMute testCase `shouldBe` expectedNoMuteStrings
                 where 
-                    testGetNoMuteCase = [(InstrumentString 1 0 X), (InstrumentString 2 7 (Fret 1)), (InstrumentString 3 14 X), (InstrumentString 4 21 X)] 
+                    testCase = [(InstrumentString 1 0 X), (InstrumentString 2 7 (Fret 1)), (InstrumentString 3 14 X), (InstrumentString 4 21 X)] 
                     expectedNoMuteStrings = [(InstrumentString 2 7 (Fret 1))] 
 
+
+    testGetMinPos :: Spec
+    testGetMinPos = do 
+        describe "TestModel.Model" $ do
+            it "testGetMinPos  " $ do
+                getMinPos testCase `shouldBe` 2
+                where 
+                    testCase = [(InstrumentString 1 0 (Fret 5)), (InstrumentString 2 7 (Fret 3)), (InstrumentString 3 14 (Fret 2)), (InstrumentString 4 21 X)] 
