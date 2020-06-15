@@ -1,35 +1,35 @@
 module InstrumentModel.Model where
      
-    data Tasto = X | Tasto Int deriving Show 
+    data Fret = X | Fret Int deriving Show 
 
-    instance Eq Tasto where  
+    instance Eq Fret where  
         X  == X = True
         X  == _ = False
         _  == X = False
-        (Tasto x) == (Tasto y) = x == y  
+        (Fret x) == (Fret y) = x == y  
 
-    instance Ord Tasto where  
+    instance Ord Fret where  
         compare X X = EQ
         compare X _ = LT
         compare _ X = GT
-        compare (Tasto x) (Tasto y) = compare x y
+        compare (Fret x) (Fret y) = compare x y
 
 
-    getStringKeyPosition :: Corda -> Int
+    getStringKeyPosition :: InstrumentString -> Int
     getStringKeyPosition c = if (tasto c) == X then 0 else extractPos $ tasto c
-        where extractPos (Tasto t) = t
+        where extractPos (Fret t) = t
             
 
 
-    data Corda = Corda {ordine :: Int
+    data InstrumentString = InstrumentString {ordine :: Int
                     , accordatura :: Int
-                    , tasto :: Tasto
+                    , tasto :: Fret
                     } deriving Show
 
-    instance Eq Corda where  
+    instance Eq InstrumentString where  
         x == y = (ordine x) == (ordine y)
 
-    type Strumento = [Corda] 
+    type Strumento = [InstrumentString] 
 
     type Intervallo = Int
     type Accordo = [Intervallo]
@@ -53,46 +53,46 @@ module InstrumentModel.Model where
     getMaxPos (s:ss) = max (getStringKeyPosition s) (getMaxPos ss)
 
 
-    eseguiNota :: Int -> Tasto -> Strumento -> Strumento
+    eseguiNota :: Int -> Fret -> Strumento -> Strumento
     eseguiNota _ _ [] = []
-    eseguiNota o (Tasto t) (u:us) = (if (ordine u) == o then u{tasto=(Tasto t)} else u) : (eseguiNota o (Tasto t) us)
+    eseguiNota o (Fret t) (u:us) = (if (ordine u) == o then u{tasto=(Fret t)} else u) : (eseguiNota o (Fret t) us)
 
 
-    cercaDiteggiatureIntervallo :: [Corda] -> Corda -> Intervallo -> [Corda]
+    cercaDiteggiatureIntervallo :: [InstrumentString] -> InstrumentString -> Intervallo -> [InstrumentString]
     cercaDiteggiatureIntervallo [] _ _ = []
-    cercaDiteggiatureIntervallo (s:ss) cref i = (if ((s /= cref) && ((tasto s)) == X && nTasto > 0) 
-                                                then s{tasto = (Tasto nTasto)}
+    cercaDiteggiatureIntervallo (s:ss) cref i = (if ((s /= cref) && ((tasto s)) == X && nFret > 0) 
+                                                then s{tasto = (Fret nFret)}
                                                 else s) : (cercaDiteggiatureIntervallo ss cref i)
         where   accordaturaRef = mod (accordatura cref) 12 -- accordatura corda vuota
                 notaRef = mod ((accordatura cref) + (getStringKeyPosition cref)) 12 -- nota risultante base
                 notaX = notaRef + i -- nota desiderata
-                nTasto = mod (notaX - (accordatura s)) 12 -- tasto sulla corda
+                nFret = mod (notaX - (accordatura s)) 12 -- tasto sulla corda
 
 
-    cercaDiteggiatureIntervalloAltre :: [Corda] -> Corda -> Intervallo -> [Corda]
+    cercaDiteggiatureIntervalloAltre :: [InstrumentString] -> InstrumentString -> Intervallo -> [InstrumentString]
     cercaDiteggiatureIntervalloAltre s cref i = cercaDiteggiatureIntervallo 
             (filter (\c -> (tasto c) == X) s)
             cref
             i
 
-    distanzaPosizioni :: Corda -> Corda -> Int
+    distanzaPosizioni :: InstrumentString -> InstrumentString -> Int
     distanzaPosizioni c d = abs ((getStringKeyPosition c) - (getStringKeyPosition d))
 
 
     -- La migliore è la piu vicina
-    calcolaMiglioreDiteggiaturaIntervallo :: Corda -> [Corda] -> Maybe Corda
+    calcolaMiglioreDiteggiaturaIntervallo :: InstrumentString -> [InstrumentString] -> Maybe InstrumentString
     calcolaMiglioreDiteggiaturaIntervallo cref [] = Nothing 
     calcolaMiglioreDiteggiaturaIntervallo cref (f:fs) = Just (foldl (\acc curr -> if (distanzaPosizioni cref curr) <= (distanzaPosizioni cref acc) then curr else acc ) f (f:fs))
 
 
-    impostaDiteggiaturaStrumento  :: Strumento -> Maybe Corda -> Strumento
+    impostaDiteggiaturaStrumento  :: Strumento -> Maybe InstrumentString -> Strumento
     impostaDiteggiaturaStrumento [] _ = []
     impostaDiteggiaturaStrumento str Nothing = str 
     impostaDiteggiaturaStrumento (s:ss) (Just c) = (if (s==c) then s{tasto=(tasto c)} else s) : (impostaDiteggiaturaStrumento ss (Just c))
 
 
-    cordaRif :: Strumento -> Corda
-    cordaRif [] = Corda 0 0 X
+    cordaRif :: Strumento -> InstrumentString
+    cordaRif [] = InstrumentString 0 0 X
     cordaRif (s:ss) = if (tasto s /= X) then s else (cordaRif ss)
 
 

@@ -7,25 +7,25 @@ newLine :: String
 newLine = "\r\n"
 
 
-renderCordaTastata:: Int -> Int -> Corda -> String
-renderCordaTastata minp mp c = if mp >= minp 
+renderInstrumentStringTastata:: Int -> Int -> InstrumentString -> String
+renderInstrumentStringTastata minp mp c = if mp >= minp 
                                 then 
-                                    (renderCordaTastata minp (mp - 1) c) 
+                                    (renderInstrumentStringTastata minp (mp - 1) c) 
                                     ++ (if (mp == getStringKeyPosition c) then "|-o-" else "|---")
                                 else " "    
 
 
-renderCordaMuta:: Int -> Int -> String
-renderCordaMuta minp mp = if mp >= minp 
+renderInstrumentStringMuta:: Int -> Int -> String
+renderInstrumentStringMuta minp mp = if mp >= minp 
                                 then 
-                                    (renderCordaMuta minp (mp - 1)) ++  "|---"
+                                    (renderInstrumentStringMuta minp (mp - 1)) ++  "|---"
                                 else "X"  
 
 
-renderCorda :: Int -> Int -> Corda -> String
-renderCorda minp maxp c = (show $ ordine c) ++ ": " ++ 
-    if (tasto c) == X then renderCordaMuta minp maxp 
-    else renderCordaTastata minp maxp c
+renderInstrumentString :: Int -> Int -> InstrumentString -> String
+renderInstrumentString minp maxp c = (show $ ordine c) ++ ": " ++ 
+    if (tasto c) == X then renderInstrumentStringMuta minp maxp 
+    else renderInstrumentStringTastata minp maxp c
  
 
 renderCapo :: Int -> String
@@ -46,7 +46,7 @@ renderStrumento descr s = descr ++ "  " ++ (short s) ++ newLine ++
             maxp = minp + 5   
             renderRun :: Int -> Int -> Strumento -> String
             renderRun _ _ [] = ""
-            renderRun minp maxp (s:ss) = (renderRun minp maxp ss) ++ (renderCorda minp maxp s) ++ newLine
+            renderRun minp maxp (s:ss) = (renderRun minp maxp ss) ++ (renderInstrumentString minp maxp s) ++ newLine
 
 short :: Strumento -> String
 short [] = ""
