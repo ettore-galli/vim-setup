@@ -95,8 +95,8 @@ module InstrumentModel.Model where
     getChordBaseString (s:ss) = if (fingeredFret s /= X) then s else (getChordBaseString ss)
 
 
-    calcolaDiteggiaturaChordDefinition :: FrettedInstrument -> ChordDefinition -> FrettedInstrument 
-    calcolaDiteggiaturaChordDefinition str acc = foldl 
+    getFingeringForChordDefinition :: FrettedInstrument -> ChordDefinition -> FrettedInstrument 
+    getFingeringForChordDefinition str acc = foldl 
                         (\s i -> 
                             setFingeringOnFrettedInstrument s (
                                 calculateBestFingeringForChromaticInterval cref (

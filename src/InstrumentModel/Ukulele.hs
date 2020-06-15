@@ -19,7 +19,7 @@ module InstrumentModel.Ukulele where
         ]
 
 
-    chords = map (\ (desc, start, chord) -> (desc, calcolaDiteggiaturaChordDefinition start chord)) chordsSpec
+    chords = map (\ (desc, start, chord) -> (desc, getFingeringForChordDefinition start chord)) chordsSpec
 
     chord1 = fingerNote 1 (Fret 7) uku5
     chord2 = fingerNote 2 (Fret 6) chord1
@@ -39,7 +39,7 @@ module InstrumentModel.Ukulele where
     ditegg7s = calculateBestFingeringForChromaticInterval corda ditegg7a
     step2 = setFingeringOnFrettedInstrument step1 ditegg7s
 
-    chord7 = calcolaDiteggiaturaChordDefinition start settima
+    chord7 = getFingeringForChordDefinition start settima
 
     crif = getChordBaseString start
  
