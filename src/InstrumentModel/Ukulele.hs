@@ -29,7 +29,7 @@ module InstrumentModel.Ukulele where
     maggiore = [4, 7]
     settima = [4, 10]
 
-    corda = cordaRif start
+    corda = getChordBaseString start
 
     ditegg3a = findChromaticIntervalFingeringsOnOtherStrings start corda 4
     ditegg3s = calculateBestFingeringForChromaticInterval corda ditegg3a
@@ -41,7 +41,7 @@ module InstrumentModel.Ukulele where
 
     chord7 = calcolaDiteggiaturaChordDefinition start settima
 
-    crif = cordaRif start
+    crif = getChordBaseString start
  
     da = findChromaticIntervalFingeringsOnOtherStrings start crif 4
     das = calculateBestFingeringForChromaticInterval crif da

@@ -90,9 +90,9 @@ module InstrumentModel.Model where
     setFingeringOnFrettedInstrument (s:ss) (Just c) = (if (s==c) then s{fingeredFret=(fingeredFret c)} else s) : (setFingeringOnFrettedInstrument ss (Just c))
 
 
-    cordaRif :: FrettedInstrument -> InstrumentString
-    cordaRif [] = InstrumentString 0 0 X
-    cordaRif (s:ss) = if (fingeredFret s /= X) then s else (cordaRif ss)
+    getChordBaseString :: FrettedInstrument -> InstrumentString
+    getChordBaseString [] = InstrumentString 0 0 X
+    getChordBaseString (s:ss) = if (fingeredFret s /= X) then s else (getChordBaseString ss)
 
 
     calcolaDiteggiaturaChordDefinition :: FrettedInstrument -> ChordDefinition -> FrettedInstrument 
@@ -106,7 +106,7 @@ module InstrumentModel.Model where
                             ) 
                         str 
                         acc
-                    where cref = cordaRif str    
+                    where cref = getChordBaseString str    
 
     {-
 
