@@ -11,7 +11,7 @@ renderCordaTastata:: Int -> Int -> Corda -> String
 renderCordaTastata minp mp c = if mp >= minp 
                                 then 
                                     (renderCordaTastata minp (mp - 1) c) 
-                                    ++ (if (mp == getPosTasto c) then "|-o-" else "|---")
+                                    ++ (if (mp == getStringKeyPosition c) then "|-o-" else "|---")
                                 else " "    
 
 
@@ -50,4 +50,4 @@ renderStrumento descr s = descr ++ "  " ++ (short s) ++ newLine ++
 
 short :: Strumento -> String
 short [] = ""
-short (s:ss) = (if (tasto s == X) then "X" else (show $ getPosTasto s)) ++ "." ++ (short ss)
+short (s:ss) = (if (tasto s == X) then "X" else (show $ getStringKeyPosition s)) ++ "." ++ (short ss)

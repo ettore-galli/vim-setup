@@ -15,8 +15,8 @@ module InstrumentModel.Model where
         compare (Tasto x) (Tasto y) = compare x y
 
 
-    getPosTasto :: Corda -> Int
-    getPosTasto c = if (tasto c) == X then 0 else extractPos $ tasto c
+    getStringKeyPosition :: Corda -> Int
+    getStringKeyPosition c = if (tasto c) == X then 0 else extractPos $ tasto c
         where extractPos (Tasto t) = t
             
 
@@ -43,14 +43,14 @@ module InstrumentModel.Model where
     getMinPos s = getMinPosRun $ getNoMute s
         where
             getMinPosRun [] = 0
-            getMinPosRun [c] = getPosTasto c 
-            getMinPosRun (s:ss) = min (getPosTasto s) (getMinPosRun ss)
+            getMinPosRun [c] = getStringKeyPosition c 
+            getMinPosRun (s:ss) = min (getStringKeyPosition s) (getMinPosRun ss)
 
 
     getMaxPos :: Strumento -> Int 
     getMaxPos [] = 0
-    getMaxPos [c] = getPosTasto c 
-    getMaxPos (s:ss) = max (getPosTasto s) (getMaxPos ss)
+    getMaxPos [c] = getStringKeyPosition c 
+    getMaxPos (s:ss) = max (getStringKeyPosition s) (getMaxPos ss)
 
 
     eseguiNota :: Int -> Tasto -> Strumento -> Strumento
@@ -64,7 +64,7 @@ module InstrumentModel.Model where
                                                 then s{tasto = (Tasto nTasto)}
                                                 else s) : (cercaDiteggiatureIntervallo ss cref i)
         where   accordaturaRef = mod (accordatura cref) 12 -- accordatura corda vuota
-                notaRef = mod ((accordatura cref) + (getPosTasto cref)) 12 -- nota risultante base
+                notaRef = mod ((accordatura cref) + (getStringKeyPosition cref)) 12 -- nota risultante base
                 notaX = notaRef + i -- nota desiderata
                 nTasto = mod (notaX - (accordatura s)) 12 -- tasto sulla corda
 
@@ -76,7 +76,7 @@ module InstrumentModel.Model where
             i
 
     distanzaPosizioni :: Corda -> Corda -> Int
-    distanzaPosizioni c d = abs ((getPosTasto c) - (getPosTasto d))
+    distanzaPosizioni c d = abs ((getStringKeyPosition c) - (getStringKeyPosition d))
 
 
     -- La migliore è la piu vicina
