@@ -1,8 +1,8 @@
 import Test.Hspec
-import InstrumentModel.Model
+import InstrumentModel.TestModel
 
 main :: IO ()
-main = hspec $ do
-  describe "Prelude.head" $ do
-    it "getPosTasto" $ do
-      (getPosTasto (Corda 1 0 (Tasto 1))) `shouldBe` (1 :: Int)
+main = hspec $ testModel
+  --describe "Prelude.head" $ do
+  --  it "getPosTastoooooo" $ do
+  --    (getPosTasto (Corda 1 0 (Tasto 1))) `shouldBe` (1 :: Int)
