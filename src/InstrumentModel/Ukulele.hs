@@ -32,24 +32,24 @@ module InstrumentModel.Ukulele where
     corda = cordaRif start
 
     ditegg3a = findChromaticIntervalFingeringsOnOtherStrings start corda 4
-    ditegg3s = calcolaMiglioreDiteggiaturaChromaticInterval corda ditegg3a
-    step1 = impostaDiteggiaturaFrettedInstrument start ditegg3s
+    ditegg3s = calculateBestFingeringForChromaticInterval corda ditegg3a
+    step1 = setFingeringOnFrettedInstrument start ditegg3s
     
     ditegg7a = findChromaticIntervalFingeringsOnOtherStrings step1 corda 10
-    ditegg7s = calcolaMiglioreDiteggiaturaChromaticInterval corda ditegg7a
-    step2 = impostaDiteggiaturaFrettedInstrument step1 ditegg7s
+    ditegg7s = calculateBestFingeringForChromaticInterval corda ditegg7a
+    step2 = setFingeringOnFrettedInstrument step1 ditegg7s
 
     chord7 = calcolaDiteggiaturaChordDefinition start settima
 
     crif = cordaRif start
  
     da = findChromaticIntervalFingeringsOnOtherStrings start crif 4
-    das = calcolaMiglioreDiteggiaturaChromaticInterval crif da
-    m1 = impostaDiteggiaturaFrettedInstrument start das
+    das = calculateBestFingeringForChromaticInterval crif da
+    m1 = setFingeringOnFrettedInstrument start das
     
     db = findChromaticIntervalFingeringsOnOtherStrings m1 crif 10
-    dbs = calcolaMiglioreDiteggiaturaChromaticInterval crif db
-    m2 = impostaDiteggiaturaFrettedInstrument m1 dbs
+    dbs = calculateBestFingeringForChromaticInterval crif db
+    m2 = setFingeringOnFrettedInstrument m1 dbs
 
  
  

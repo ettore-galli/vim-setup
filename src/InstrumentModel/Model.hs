@@ -79,16 +79,15 @@ module InstrumentModel.Model where
     getFingeringsDistance c d = abs ((getInstrumentStringKeyPosition c) - (getInstrumentStringKeyPosition d))
 
 
-    -- La migliore è la piu vicina
-    calcolaMiglioreDiteggiaturaChromaticInterval :: InstrumentString -> [InstrumentString] -> Maybe InstrumentString
-    calcolaMiglioreDiteggiaturaChromaticInterval cref [] = Nothing 
-    calcolaMiglioreDiteggiaturaChromaticInterval cref (f:fs) = Just (foldl (\acc curr -> if (getFingeringsDistance cref curr) <= (getFingeringsDistance cref acc) then curr else acc ) f (f:fs))
+    calculateBestFingeringForChromaticInterval :: InstrumentString -> [InstrumentString] -> Maybe InstrumentString
+    calculateBestFingeringForChromaticInterval cref [] = Nothing 
+    calculateBestFingeringForChromaticInterval cref (f:fs) = Just (foldl (\acc curr -> if (getFingeringsDistance cref curr) <= (getFingeringsDistance cref acc) then curr else acc ) f (f:fs))
 
 
-    impostaDiteggiaturaFrettedInstrument  :: FrettedInstrument -> Maybe InstrumentString -> FrettedInstrument
-    impostaDiteggiaturaFrettedInstrument [] _ = []
-    impostaDiteggiaturaFrettedInstrument str Nothing = str 
-    impostaDiteggiaturaFrettedInstrument (s:ss) (Just c) = (if (s==c) then s{fingeredFret=(fingeredFret c)} else s) : (impostaDiteggiaturaFrettedInstrument ss (Just c))
+    setFingeringOnFrettedInstrument  :: FrettedInstrument -> Maybe InstrumentString -> FrettedInstrument
+    setFingeringOnFrettedInstrument [] _ = []
+    setFingeringOnFrettedInstrument str Nothing = str 
+    setFingeringOnFrettedInstrument (s:ss) (Just c) = (if (s==c) then s{fingeredFret=(fingeredFret c)} else s) : (setFingeringOnFrettedInstrument ss (Just c))
 
 
     cordaRif :: FrettedInstrument -> InstrumentString
@@ -99,8 +98,8 @@ module InstrumentModel.Model where
     calcolaDiteggiaturaChordDefinition :: FrettedInstrument -> ChordDefinition -> FrettedInstrument 
     calcolaDiteggiaturaChordDefinition str acc = foldl 
                         (\s i -> 
-                            impostaDiteggiaturaFrettedInstrument s (
-                                calcolaMiglioreDiteggiaturaChromaticInterval cref (
+                            setFingeringOnFrettedInstrument s (
+                                calculateBestFingeringForChromaticInterval cref (
                                         findChromaticIntervalFingeringsOnOtherStrings str cref i
                                     )
                                 )
