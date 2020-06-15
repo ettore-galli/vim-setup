@@ -31,11 +31,11 @@ module InstrumentModel.Ukulele where
 
     corda = cordaRif start
 
-    ditegg3a = cercaDiteggiatureChromaticIntervalAltre start corda 4
+    ditegg3a = findChromaticIntervalFingeringsOnOtherStrings start corda 4
     ditegg3s = calcolaMiglioreDiteggiaturaChromaticInterval corda ditegg3a
     step1 = impostaDiteggiaturaFrettedInstrument start ditegg3s
     
-    ditegg7a = cercaDiteggiatureChromaticIntervalAltre step1 corda 10
+    ditegg7a = findChromaticIntervalFingeringsOnOtherStrings step1 corda 10
     ditegg7s = calcolaMiglioreDiteggiaturaChromaticInterval corda ditegg7a
     step2 = impostaDiteggiaturaFrettedInstrument step1 ditegg7s
 
@@ -43,11 +43,11 @@ module InstrumentModel.Ukulele where
 
     crif = cordaRif start
  
-    da = cercaDiteggiatureChromaticIntervalAltre start crif 4
+    da = findChromaticIntervalFingeringsOnOtherStrings start crif 4
     das = calcolaMiglioreDiteggiaturaChromaticInterval crif da
     m1 = impostaDiteggiaturaFrettedInstrument start das
     
-    db = cercaDiteggiatureChromaticIntervalAltre m1 crif 10
+    db = findChromaticIntervalFingeringsOnOtherStrings m1 crif 10
     dbs = calcolaMiglioreDiteggiaturaChromaticInterval crif db
     m2 = impostaDiteggiaturaFrettedInstrument m1 dbs
 

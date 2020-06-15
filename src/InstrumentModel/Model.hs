@@ -58,19 +58,19 @@ module InstrumentModel.Model where
     fingerNote strNum (Fret t) (u:us) = (if (stringNumber u) == strNum then u{fingeredFret=(Fret t)} else u) : (fingerNote strNum (Fret t) us)
 
 
-    cercaDiteggiatureChromaticInterval :: [InstrumentString] -> InstrumentString -> ChromaticInterval -> [InstrumentString]
-    cercaDiteggiatureChromaticInterval [] _ _ = []
-    cercaDiteggiatureChromaticInterval (s:ss) cref i = (if ((s /= cref) && ((fingeredFret s)) == X && nFret > 0) 
+    findPossibleFingeringsForChromaticInterval :: [InstrumentString] -> InstrumentString -> ChromaticInterval -> [InstrumentString]
+    findPossibleFingeringsForChromaticInterval [] _ _ = []
+    findPossibleFingeringsForChromaticInterval (s:ss) cref i = (if ((s /= cref) && ((fingeredFret s)) == X && nFret > 0) 
                                                 then s{fingeredFret = (Fret nFret)}
-                                                else s) : (cercaDiteggiatureChromaticInterval ss cref i)
+                                                else s) : (findPossibleFingeringsForChromaticInterval ss cref i)
         where   stringTuningRef = mod (stringTuning cref) 12 -- stringTuning corda vuota
                 notaRef = mod ((stringTuning cref) + (getInstrumentStringKeyPosition cref)) 12 -- nota risultante base
                 notaX = notaRef + i -- nota desiderata
                 nFret = mod (notaX - (stringTuning s)) 12 -- fingeredFret sulla corda
 
 
-    cercaDiteggiatureChromaticIntervalAltre :: [InstrumentString] -> InstrumentString -> ChromaticInterval -> [InstrumentString]
-    cercaDiteggiatureChromaticIntervalAltre s cref i = cercaDiteggiatureChromaticInterval 
+    findChromaticIntervalFingeringsOnOtherStrings :: [InstrumentString] -> InstrumentString -> ChromaticInterval -> [InstrumentString]
+    findChromaticIntervalFingeringsOnOtherStrings s cref i = findPossibleFingeringsForChromaticInterval 
             (filter (\c -> (fingeredFret c) == X) s)
             cref
             i
@@ -101,7 +101,7 @@ module InstrumentModel.Model where
                         (\s i -> 
                             impostaDiteggiaturaFrettedInstrument s (
                                 calcolaMiglioreDiteggiaturaChromaticInterval cref (
-                                        cercaDiteggiatureChromaticIntervalAltre str cref i
+                                        findChromaticIntervalFingeringsOnOtherStrings str cref i
                                     )
                                 )
                             ) 
