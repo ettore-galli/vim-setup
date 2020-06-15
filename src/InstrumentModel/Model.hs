@@ -75,14 +75,14 @@ module InstrumentModel.Model where
             cref
             i
 
-    distanzaPosizioni :: InstrumentString -> InstrumentString -> Int
-    distanzaPosizioni c d = abs ((getInstrumentStringKeyPosition c) - (getInstrumentStringKeyPosition d))
+    getFingeringsDistance :: InstrumentString -> InstrumentString -> Int
+    getFingeringsDistance c d = abs ((getInstrumentStringKeyPosition c) - (getInstrumentStringKeyPosition d))
 
 
     -- La migliore è la piu vicina
     calcolaMiglioreDiteggiaturaChromaticInterval :: InstrumentString -> [InstrumentString] -> Maybe InstrumentString
     calcolaMiglioreDiteggiaturaChromaticInterval cref [] = Nothing 
-    calcolaMiglioreDiteggiaturaChromaticInterval cref (f:fs) = Just (foldl (\acc curr -> if (distanzaPosizioni cref curr) <= (distanzaPosizioni cref acc) then curr else acc ) f (f:fs))
+    calcolaMiglioreDiteggiaturaChromaticInterval cref (f:fs) = Just (foldl (\acc curr -> if (getFingeringsDistance cref curr) <= (getFingeringsDistance cref acc) then curr else acc ) f (f:fs))
 
 
     impostaDiteggiaturaFrettedInstrument  :: FrettedInstrument -> Maybe InstrumentString -> FrettedInstrument
