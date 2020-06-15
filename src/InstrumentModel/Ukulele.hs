@@ -7,7 +7,7 @@ module InstrumentModel.Ukulele where
     uku35 :: FrettedInstrument
     uku35 = [(InstrumentString 2 7 X), (InstrumentString 3 14 X), (InstrumentString 4 21 X)] 
 
-    start = eseguiNota 2 (Fret 3) uku5
+    start = fingerNote 2 (Fret 3) uku5
 
     chordsSpec = [
         ("2: Maggiore", start, [4, 7]),
@@ -21,10 +21,10 @@ module InstrumentModel.Ukulele where
 
     chords = map (\ (desc, start, chord) -> (desc, calcolaDiteggiaturaChordDefinition start chord)) chordsSpec
 
-    chord1 = eseguiNota 1 (Fret 7) uku5
-    chord2 = eseguiNota 2 (Fret 6) chord1
-    chord3 = eseguiNota 3 (Fret 5) chord2
-    chord4 = eseguiNota 4 (Fret 4) chord3
+    chord1 = fingerNote 1 (Fret 7) uku5
+    chord2 = fingerNote 2 (Fret 6) chord1
+    chord3 = fingerNote 3 (Fret 5) chord2
+    chord4 = fingerNote 4 (Fret 4) chord3
     
     maggiore = [4, 7]
     settima = [4, 10]

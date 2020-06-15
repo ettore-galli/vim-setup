@@ -53,9 +53,9 @@ module InstrumentModel.Model where
     getMaxPos (s:ss) = max (getInstrumentStringKeyPosition s) (getMaxPos ss)
 
 
-    eseguiNota :: Int -> Fret -> FrettedInstrument -> FrettedInstrument
-    eseguiNota _ _ [] = []
-    eseguiNota o (Fret t) (u:us) = (if (stringNumber u) == o then u{fingeredFret=(Fret t)} else u) : (eseguiNota o (Fret t) us)
+    fingerNote :: Int -> Fret -> FrettedInstrument -> FrettedInstrument
+    fingerNote _ _ [] = []
+    fingerNote strNum (Fret t) (u:us) = (if (stringNumber u) == strNum then u{fingeredFret=(Fret t)} else u) : (fingerNote strNum (Fret t) us)
 
 
     cercaDiteggiatureChromaticInterval :: [InstrumentString] -> InstrumentString -> ChromaticInterval -> [InstrumentString]
