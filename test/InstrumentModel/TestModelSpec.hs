@@ -9,5 +9,5 @@ module InstrumentModel.TestModelSpec (spec) where
             it "getStringKeyPosition 1" $ do
                 (getStringKeyPosition (InstrumentString 1 0 (Fret 1))) `shouldBe` (1 :: Int)
             it "getStringKeyPosition X" $ do
-                (tasto (InstrumentString 1 0 X)) `shouldBe` X             
+                (fingeredFret (InstrumentString 1 0 X)) `shouldBe` X             
 

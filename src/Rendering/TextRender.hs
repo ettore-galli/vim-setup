@@ -23,8 +23,8 @@ renderInstrumentStringMuta minp mp = if mp >= minp
 
 
 renderInstrumentString :: Int -> Int -> InstrumentString -> String
-renderInstrumentString minp maxp c = (show $ ordine c) ++ ": " ++ 
-    if (tasto c) == X then renderInstrumentStringMuta minp maxp 
+renderInstrumentString minp maxp c = (show $ stringNumber c) ++ ": " ++ 
+    if (fingeredFret c) == X then renderInstrumentStringMuta minp maxp 
     else renderInstrumentStringTastata minp maxp c
  
 
@@ -50,4 +50,4 @@ renderStrumento descr s = descr ++ "  " ++ (short s) ++ newLine ++
 
 short :: Strumento -> String
 short [] = ""
-short (s:ss) = (if (tasto s == X) then "X" else (show $ getStringKeyPosition s)) ++ "." ++ (short ss)
+short (s:ss) = (if (fingeredFret s == X) then "X" else (show $ getStringKeyPosition s)) ++ "." ++ (short ss)
