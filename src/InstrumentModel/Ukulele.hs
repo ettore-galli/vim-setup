@@ -1,10 +1,10 @@
 module InstrumentModel.Ukulele where
     import InstrumentModel.Model 
 
-    uku5 :: Strumento
+    uku5 :: FrettedInstrument
     uku5 = [(InstrumentString 1 0 X), (InstrumentString 2 7 X), (InstrumentString 3 14 X), (InstrumentString 4 21 X)] 
     
-    uku35 :: Strumento
+    uku35 :: FrettedInstrument
     uku35 = [(InstrumentString 2 7 X), (InstrumentString 3 14 X), (InstrumentString 4 21 X)] 
 
     start = eseguiNota 2 (Fret 3) uku5
@@ -33,11 +33,11 @@ module InstrumentModel.Ukulele where
 
     ditegg3a = cercaDiteggiatureIntervalloAltre start corda 4
     ditegg3s = calcolaMiglioreDiteggiaturaIntervallo corda ditegg3a
-    step1 = impostaDiteggiaturaStrumento start ditegg3s
+    step1 = impostaDiteggiaturaFrettedInstrument start ditegg3s
     
     ditegg7a = cercaDiteggiatureIntervalloAltre step1 corda 10
     ditegg7s = calcolaMiglioreDiteggiaturaIntervallo corda ditegg7a
-    step2 = impostaDiteggiaturaStrumento step1 ditegg7s
+    step2 = impostaDiteggiaturaFrettedInstrument step1 ditegg7s
 
     chord7 = calcolaDiteggiaturaAccordo start settima
 
@@ -45,11 +45,11 @@ module InstrumentModel.Ukulele where
  
     da = cercaDiteggiatureIntervalloAltre start crif 4
     das = calcolaMiglioreDiteggiaturaIntervallo crif da
-    m1 = impostaDiteggiaturaStrumento start das
+    m1 = impostaDiteggiaturaFrettedInstrument start das
     
     db = cercaDiteggiatureIntervalloAltre m1 crif 10
     dbs = calcolaMiglioreDiteggiaturaIntervallo crif db
-    m2 = impostaDiteggiaturaStrumento m1 dbs
+    m2 = impostaDiteggiaturaFrettedInstrument m1 dbs
 
  
  

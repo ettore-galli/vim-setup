@@ -29,17 +29,17 @@ module InstrumentModel.Model where
     instance Eq InstrumentString where  
         x == y = (stringNumber x) == (stringNumber y)
 
-    type Strumento = [InstrumentString] 
+    type FrettedInstrument = [InstrumentString] 
 
     type Intervallo = Int
     type Accordo = [Intervallo]
 
 
-    getNoMute :: Strumento -> Strumento
+    getNoMute :: FrettedInstrument -> FrettedInstrument
     getNoMute s = (filter (\c -> (fingeredFret c) /= X) s)
 
 
-    getMinPos :: Strumento -> Int 
+    getMinPos :: FrettedInstrument -> Int 
     getMinPos s = getMinPosRun $ getNoMute s
         where
             getMinPosRun [] = 0
@@ -47,13 +47,13 @@ module InstrumentModel.Model where
             getMinPosRun (s:ss) = min (getStringKeyPosition s) (getMinPosRun ss)
 
 
-    getMaxPos :: Strumento -> Int 
+    getMaxPos :: FrettedInstrument -> Int 
     getMaxPos [] = 0
     getMaxPos [c] = getStringKeyPosition c 
     getMaxPos (s:ss) = max (getStringKeyPosition s) (getMaxPos ss)
 
 
-    eseguiNota :: Int -> Fret -> Strumento -> Strumento
+    eseguiNota :: Int -> Fret -> FrettedInstrument -> FrettedInstrument
     eseguiNota _ _ [] = []
     eseguiNota o (Fret t) (u:us) = (if (stringNumber u) == o then u{fingeredFret=(Fret t)} else u) : (eseguiNota o (Fret t) us)
 
@@ -85,21 +85,21 @@ module InstrumentModel.Model where
     calcolaMiglioreDiteggiaturaIntervallo cref (f:fs) = Just (foldl (\acc curr -> if (distanzaPosizioni cref curr) <= (distanzaPosizioni cref acc) then curr else acc ) f (f:fs))
 
 
-    impostaDiteggiaturaStrumento  :: Strumento -> Maybe InstrumentString -> Strumento
-    impostaDiteggiaturaStrumento [] _ = []
-    impostaDiteggiaturaStrumento str Nothing = str 
-    impostaDiteggiaturaStrumento (s:ss) (Just c) = (if (s==c) then s{fingeredFret=(fingeredFret c)} else s) : (impostaDiteggiaturaStrumento ss (Just c))
+    impostaDiteggiaturaFrettedInstrument  :: FrettedInstrument -> Maybe InstrumentString -> FrettedInstrument
+    impostaDiteggiaturaFrettedInstrument [] _ = []
+    impostaDiteggiaturaFrettedInstrument str Nothing = str 
+    impostaDiteggiaturaFrettedInstrument (s:ss) (Just c) = (if (s==c) then s{fingeredFret=(fingeredFret c)} else s) : (impostaDiteggiaturaFrettedInstrument ss (Just c))
 
 
-    cordaRif :: Strumento -> InstrumentString
+    cordaRif :: FrettedInstrument -> InstrumentString
     cordaRif [] = InstrumentString 0 0 X
     cordaRif (s:ss) = if (fingeredFret s /= X) then s else (cordaRif ss)
 
 
-    calcolaDiteggiaturaAccordo :: Strumento -> Accordo -> Strumento 
+    calcolaDiteggiaturaAccordo :: FrettedInstrument -> Accordo -> FrettedInstrument 
     calcolaDiteggiaturaAccordo str acc = foldl 
                         (\s i -> 
-                            impostaDiteggiaturaStrumento s (
+                            impostaDiteggiaturaFrettedInstrument s (
                                 calcolaMiglioreDiteggiaturaIntervallo cref (
                                         cercaDiteggiatureIntervalloAltre str cref i
                                     )

@@ -4,10 +4,10 @@ import InstrumentModel.Model
 import InstrumentModel.Ukulele
 import Rendering.TextRender
 
-renderChordsList :: [(String, Strumento)] -> IO()
+renderChordsList :: [(String, FrettedInstrument)] -> IO()
 renderChordsList [] = putStrLn "*"
 renderChordsList ((descr, s) : ss) = do 
-        putStrLn $ renderStrumento descr s
+        putStrLn $ renderFrettedInstrument descr s
         renderChordsList ss
 
 main :: IO ()

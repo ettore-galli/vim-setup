@@ -37,17 +37,17 @@ renderCapo cp
     | otherwise = (show cp) ++ "th"
    
 
-renderStrumento :: String -> Strumento -> String
-renderStrumento _ [] = ""
-renderStrumento descr s = descr ++ "  " ++ (short s) ++ newLine ++
+renderFrettedInstrument :: String -> FrettedInstrument -> String
+renderFrettedInstrument _ [] = ""
+renderFrettedInstrument descr s = descr ++ "  " ++ (short s) ++ newLine ++
                             "     " ++ (renderCapo minp) ++ newLine ++ 
                             renderRun minp maxp s
       where minp = getMinPos s
             maxp = minp + 5   
-            renderRun :: Int -> Int -> Strumento -> String
+            renderRun :: Int -> Int -> FrettedInstrument -> String
             renderRun _ _ [] = ""
             renderRun minp maxp (s:ss) = (renderRun minp maxp ss) ++ (renderInstrumentString minp maxp s) ++ newLine
 
-short :: Strumento -> String
+short :: FrettedInstrument -> String
 short [] = ""
 short (s:ss) = (if (fingeredFret s == X) then "X" else (show $ getStringKeyPosition s)) ++ "." ++ (short ss)
