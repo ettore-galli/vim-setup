@@ -11,7 +11,7 @@ renderInstrumentStringTastata:: Int -> Int -> InstrumentString -> String
 renderInstrumentStringTastata minp mp c = if mp >= minp 
                                 then 
                                     (renderInstrumentStringTastata minp (mp - 1) c) 
-                                    ++ (if (mp == getStringKeyPosition c) then "|-o-" else "|---")
+                                    ++ (if (mp == getInstrumentStringKeyPosition c) then "|-o-" else "|---")
                                 else " "    
 
 
@@ -50,4 +50,4 @@ renderFrettedInstrument descr s = descr ++ "  " ++ (short s) ++ newLine ++
 
 short :: FrettedInstrument -> String
 short [] = ""
-short (s:ss) = (if (fingeredFret s == X) then "X" else (show $ getStringKeyPosition s)) ++ "." ++ (short ss)
+short (s:ss) = (if (fingeredFret s == X) then "X" else (show $ getInstrumentStringKeyPosition s)) ++ "." ++ (short ss)

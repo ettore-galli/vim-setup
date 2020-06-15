@@ -15,9 +15,9 @@ module InstrumentModel.Model where
         compare (Fret x) (Fret y) = compare x y
 
 
-    getStringKeyPosition :: InstrumentString -> Int
-    getStringKeyPosition c = if (fingeredFret c) == X then 0 else extractPos $ fingeredFret c
-        where extractPos (Fret t) = t
+    getInstrumentStringKeyPosition :: InstrumentString -> Int
+    getInstrumentStringKeyPosition c = if (fingeredFret c) == X then 0 else extractFretPosition $ fingeredFret c
+        where extractFretPosition (Fret t) = t
             
 
 
@@ -43,14 +43,14 @@ module InstrumentModel.Model where
     getMinPos s = getMinPosRun $ getNoMute s
         where
             getMinPosRun [] = 0
-            getMinPosRun [c] = getStringKeyPosition c 
-            getMinPosRun (s:ss) = min (getStringKeyPosition s) (getMinPosRun ss)
+            getMinPosRun [c] = getInstrumentStringKeyPosition c 
+            getMinPosRun (s:ss) = min (getInstrumentStringKeyPosition s) (getMinPosRun ss)
 
 
     getMaxPos :: FrettedInstrument -> Int 
     getMaxPos [] = 0
-    getMaxPos [c] = getStringKeyPosition c 
-    getMaxPos (s:ss) = max (getStringKeyPosition s) (getMaxPos ss)
+    getMaxPos [c] = getInstrumentStringKeyPosition c 
+    getMaxPos (s:ss) = max (getInstrumentStringKeyPosition s) (getMaxPos ss)
 
 
     eseguiNota :: Int -> Fret -> FrettedInstrument -> FrettedInstrument
@@ -64,7 +64,7 @@ module InstrumentModel.Model where
                                                 then s{fingeredFret = (Fret nFret)}
                                                 else s) : (cercaDiteggiatureChromaticInterval ss cref i)
         where   stringTuningRef = mod (stringTuning cref) 12 -- stringTuning corda vuota
-                notaRef = mod ((stringTuning cref) + (getStringKeyPosition cref)) 12 -- nota risultante base
+                notaRef = mod ((stringTuning cref) + (getInstrumentStringKeyPosition cref)) 12 -- nota risultante base
                 notaX = notaRef + i -- nota desiderata
                 nFret = mod (notaX - (stringTuning s)) 12 -- fingeredFret sulla corda
 
@@ -76,7 +76,7 @@ module InstrumentModel.Model where
             i
 
     distanzaPosizioni :: InstrumentString -> InstrumentString -> Int
-    distanzaPosizioni c d = abs ((getStringKeyPosition c) - (getStringKeyPosition d))
+    distanzaPosizioni c d = abs ((getInstrumentStringKeyPosition c) - (getInstrumentStringKeyPosition d))
 
 
     -- La migliore è la piu vicina

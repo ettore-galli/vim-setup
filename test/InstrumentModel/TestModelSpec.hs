@@ -6,8 +6,8 @@ module InstrumentModel.TestModelSpec (spec) where
     spec :: Spec
     spec = do
         describe "TestModel.Model" $ do
-            it "getStringKeyPosition 1" $ do
-                (getStringKeyPosition (InstrumentString 1 0 (Fret 1))) `shouldBe` (1 :: Int)
-            it "getStringKeyPosition X" $ do
+            it "getInstrumentStringKeyPosition 1" $ do
+                (getInstrumentStringKeyPosition (InstrumentString 1 0 (Fret 1))) `shouldBe` (1 :: Int)
+            it "getInstrumentStringKeyPosition X" $ do
                 (fingeredFret (InstrumentString 1 0 X)) `shouldBe` X             
 
