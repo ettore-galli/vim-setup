@@ -32,7 +32,7 @@ module InstrumentModel.Model where
     type FrettedInstrument = [InstrumentString] 
 
     type ChromaticInterval = Int
-    type Accordo = [ChromaticInterval]
+    type ChordDefinition = [ChromaticInterval]
 
 
     getNoMute :: FrettedInstrument -> FrettedInstrument
@@ -96,8 +96,8 @@ module InstrumentModel.Model where
     cordaRif (s:ss) = if (fingeredFret s /= X) then s else (cordaRif ss)
 
 
-    calcolaDiteggiaturaAccordo :: FrettedInstrument -> Accordo -> FrettedInstrument 
-    calcolaDiteggiaturaAccordo str acc = foldl 
+    calcolaDiteggiaturaChordDefinition :: FrettedInstrument -> ChordDefinition -> FrettedInstrument 
+    calcolaDiteggiaturaChordDefinition str acc = foldl 
                         (\s i -> 
                             impostaDiteggiaturaFrettedInstrument s (
                                 calcolaMiglioreDiteggiaturaChromaticInterval cref (

@@ -19,7 +19,7 @@ module InstrumentModel.Ukulele where
         ]
 
 
-    chords = map (\ (desc, start, chord) -> (desc, calcolaDiteggiaturaAccordo start chord)) chordsSpec
+    chords = map (\ (desc, start, chord) -> (desc, calcolaDiteggiaturaChordDefinition start chord)) chordsSpec
 
     chord1 = eseguiNota 1 (Fret 7) uku5
     chord2 = eseguiNota 2 (Fret 6) chord1
@@ -39,7 +39,7 @@ module InstrumentModel.Ukulele where
     ditegg7s = calcolaMiglioreDiteggiaturaChromaticInterval corda ditegg7a
     step2 = impostaDiteggiaturaFrettedInstrument step1 ditegg7s
 
-    chord7 = calcolaDiteggiaturaAccordo start settima
+    chord7 = calcolaDiteggiaturaChordDefinition start settima
 
     crif = cordaRif start
  
