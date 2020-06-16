@@ -5,14 +5,18 @@ module InstrumentModel.TestModelSpec (spec) where
 
     spec :: Spec
     spec = do 
-        testgetInstrumentString
-        testGetNoMute
-        testGetMinPos
+        describe "TestModel.Model" $ do
+            testgetInstrumentString
+            testGetNoMute
+            testGetMinPos
+            testGetMaxPos
+            testFingerNote
+            testFindPossibleFingeringsForChromaticInterval
           
 
     testgetInstrumentString :: Spec
     testgetInstrumentString = do
-        describe "TestModel.Model" $ do
+        describe "" $ do
             it "getInstrumentStringKeyPosition 1" $ do
                 (getInstrumentStringKeyPosition (InstrumentString 1 0 (Fret 1))) `shouldBe` (1 :: Int)
             it "getInstrumentStringKeyPosition X" $ do
@@ -21,7 +25,7 @@ module InstrumentModel.TestModelSpec (spec) where
 
     testGetNoMute :: Spec
     testGetNoMute = do 
-        describe "TestModel.Model" $ do
+        describe "" $ do
             it "testGetNoMute  " $ do
                 getNoMute testCase `shouldBe` expectedNoMuteStrings
                 where 
@@ -31,8 +35,36 @@ module InstrumentModel.TestModelSpec (spec) where
 
     testGetMinPos :: Spec
     testGetMinPos = do 
-        describe "TestModel.Model" $ do
+        describe "" $ do
             it "testGetMinPos  " $ do
                 getMinPos testCase `shouldBe` 2
                 where 
                     testCase = [(InstrumentString 1 0 (Fret 5)), (InstrumentString 2 7 (Fret 3)), (InstrumentString 3 14 (Fret 2)), (InstrumentString 4 21 X)] 
+
+    testGetMaxPos :: Spec
+    testGetMaxPos = do 
+        describe "" $ do
+            it "testGetMaxPos  " $ do
+                getMaxPos testCase `shouldBe` 5
+                where 
+                    testCase = [(InstrumentString 1 0 (Fret 5)), (InstrumentString 2 7 (Fret 3)), (InstrumentString 3 14 (Fret 2)), (InstrumentString 4 21 X)] 
+
+    testFingerNote :: Spec
+    testFingerNote = do 
+        describe "" $ do
+            it "testFingerNote  " $ do
+                (fingerNote 2 (Fret 6) testCaseInit) `shouldBe` testCaseExpected
+                where 
+                    testCaseInit = [(InstrumentString 1 0 X), (InstrumentString 2 7 X), (InstrumentString 3 14 X), (InstrumentString 4 21 X)] 
+                    testCaseExpected = [(InstrumentString 1 0 X), (InstrumentString 2 7 (Fret 6)), (InstrumentString 3 14 X), (InstrumentString 4 21 X)] 
+
+    testFindPossibleFingeringsForChromaticInterval :: Spec
+    testFindPossibleFingeringsForChromaticInterval = do 
+        describe "" $ do
+            it "testFindPossibleFingeringsForChromaticInterval  " $ do
+                (findPossibleFingeringsForChromaticInterval baseInstrument firstFingering interval) `shouldBe` fingeringsExpected
+                where 
+                    baseInstrument = [(InstrumentString 1 0 X), (InstrumentString 2 7 X), (InstrumentString 3 14 X), (InstrumentString 4 21 X)] 
+                    firstFingering = (InstrumentString 1 0 (Fret 5))
+                    interval=9
+                    fingeringsExpected = [InstrumentString {stringNumber = 1, stringTuning = 0, fingeredFret = X},InstrumentString {stringNumber = 2, stringTuning = 7, fingeredFret = Fret 7},InstrumentString {stringNumber = 3, stringTuning = 14, fingeredFret = X},InstrumentString {stringNumber = 4, stringTuning = 21, fingeredFret = Fret 5}] 
