@@ -15,6 +15,7 @@ module InstrumentModel.TestModelSpec (spec) where
             testFindChromaticIntervalFingeringsOnOtherStrings
             testGetFingeringsDistance
             testGetChordBaseString
+            testSetFingeringOnFrettedInstrument
           
 
     testgetInstrumentString :: Spec
@@ -99,3 +100,13 @@ module InstrumentModel.TestModelSpec (spec) where
                 where 
                     baseInstrument = [(InstrumentString 1 0 X), (InstrumentString 2 7 (Fret 5)), (InstrumentString 3 14 X), (InstrumentString 4 21 X)] 
                     expectedString = (InstrumentString 2 7 (Fret 5))
+
+    testSetFingeringOnFrettedInstrument :: Spec              
+    testSetFingeringOnFrettedInstrument = do 
+        describe "" $ do
+            it "testSetFingeringOnFrettedInstrument  " $ do
+                (setFingeringOnFrettedInstrument baseInstrument instrumentString) `shouldBe` expectedInstrument
+                where 
+                    baseInstrument = [(InstrumentString 1 0 X), (InstrumentString 2 7 (Fret 5)), (InstrumentString 3 14 X), (InstrumentString 4 21 X)] 
+                    instrumentString = Just (InstrumentString 3 14 (Fret 6))
+                    expectedInstrument = [(InstrumentString 1 0 X), (InstrumentString 2 7 (Fret 5)), (InstrumentString 3 14 (Fret 6)), (InstrumentString 4 21 X)] 
