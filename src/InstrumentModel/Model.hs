@@ -68,7 +68,7 @@ module InstrumentModel.Model where
                 notaX = notaRef + i -- nota desiderata
                 nFret = mod (notaX - (stringTuning s)) 12 -- fingeredFret sulla corda
 
-
+    -- TODO: Serve?
     findChromaticIntervalFingeringsOnOtherStrings :: [InstrumentString] -> InstrumentString -> ChromaticInterval -> [InstrumentString]
     findChromaticIntervalFingeringsOnOtherStrings s cref i = findPossibleFingeringsForChromaticInterval 
             (filter (\c -> (fingeredFret c) == X) s)

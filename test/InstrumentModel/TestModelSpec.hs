@@ -12,6 +12,9 @@ module InstrumentModel.TestModelSpec (spec) where
             testGetMaxPos
             testFingerNote
             testFindPossibleFingeringsForChromaticInterval
+            testFindChromaticIntervalFingeringsOnOtherStrings
+            testGetFingeringsDistance
+            testGetChordBaseString
           
 
     testgetInstrumentString :: Spec
@@ -68,3 +71,31 @@ module InstrumentModel.TestModelSpec (spec) where
                     firstFingering = (InstrumentString 1 0 (Fret 5))
                     interval=9
                     fingeringsExpected = [InstrumentString {stringNumber = 1, stringTuning = 0, fingeredFret = X},InstrumentString {stringNumber = 2, stringTuning = 7, fingeredFret = Fret 7},InstrumentString {stringNumber = 3, stringTuning = 14, fingeredFret = X},InstrumentString {stringNumber = 4, stringTuning = 21, fingeredFret = Fret 5}] 
+
+    testFindChromaticIntervalFingeringsOnOtherStrings :: Spec
+    testFindChromaticIntervalFingeringsOnOtherStrings = do 
+        describe "" $ do
+            it "testFindChromaticIntervalFingeringsOnOtherStrings  " $ do
+                (findChromaticIntervalFingeringsOnOtherStrings baseInstrument firstFingering interval) `shouldBe` fingeringsExpected
+                where 
+                    baseInstrument = [(InstrumentString 1 0 X), (InstrumentString 2 7 X), (InstrumentString 3 14 X), (InstrumentString 4 21 X)] 
+                    firstFingering = (InstrumentString 1 0 (Fret 5))
+                    interval=9
+                    fingeringsExpected = [InstrumentString {stringNumber = 1, stringTuning = 0, fingeredFret = X},InstrumentString {stringNumber = 2, stringTuning = 7, fingeredFret = Fret 7},InstrumentString {stringNumber = 3, stringTuning = 14, fingeredFret = X},InstrumentString {stringNumber = 4, stringTuning = 21, fingeredFret = Fret 5}] 
+
+    testGetFingeringsDistance :: Spec
+    testGetFingeringsDistance = do 
+        describe "" $ do
+            it "testGetFingeringsDistance  " $ do
+                (getFingeringsDistance (InstrumentString 1 0 (Fret 2)) (InstrumentString 1 0 (Fret 5))) `shouldBe` 3
+            it "testGetFingeringsDistance  " $ do
+                (getFingeringsDistance (InstrumentString 1 0 (Fret 7)) (InstrumentString 1 0 (Fret 3))) `shouldBe` 4
+
+    testGetChordBaseString :: Spec
+    testGetChordBaseString = do 
+        describe "" $ do
+            it "testGetChordBaseString  " $ do
+                (getChordBaseString baseInstrument) `shouldBe` expectedString
+                where 
+                    baseInstrument = [(InstrumentString 1 0 X), (InstrumentString 2 7 (Fret 5)), (InstrumentString 3 14 X), (InstrumentString 4 21 X)] 
+                    expectedString = (InstrumentString 2 7 (Fret 5))
