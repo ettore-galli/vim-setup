@@ -24,10 +24,10 @@ module InstrumentModel.Model where
     data InstrumentString = InstrumentString {stringNumber :: Int
                     , stringTuning :: Int
                     , fingeredFret :: Fret
-                    } deriving Show
+                    } deriving (Show, Eq)
 
-    instance Eq InstrumentString where  
-        x == y = (stringNumber x) == (stringNumber y)
+    sameInstrumentString :: InstrumentString -> InstrumentString -> Bool
+    sameInstrumentString x y = (stringNumber x) == (stringNumber y)
 
     type FrettedInstrument = [InstrumentString] 
 
@@ -60,7 +60,7 @@ module InstrumentModel.Model where
 
     findPossibleFingeringsForChromaticInterval :: [InstrumentString] -> InstrumentString -> ChromaticInterval -> [InstrumentString]
     findPossibleFingeringsForChromaticInterval [] _ _ = []
-    findPossibleFingeringsForChromaticInterval (s:ss) cref i = (if ((s /= cref) && ((fingeredFret s)) == X && nFret > 0) 
+    findPossibleFingeringsForChromaticInterval (s:ss) cref i = (if ((not $ sameInstrumentString s cref) && ((fingeredFret s)) == X && nFret > 0) 
                                                 then s{fingeredFret = (Fret nFret)}
                                                 else s) : (findPossibleFingeringsForChromaticInterval ss cref i)
         where   stringTuningRef = mod (stringTuning cref) 12 -- stringTuning corda vuota
@@ -87,7 +87,7 @@ module InstrumentModel.Model where
     setFingeringOnFrettedInstrument  :: FrettedInstrument -> Maybe InstrumentString -> FrettedInstrument
     setFingeringOnFrettedInstrument [] _ = []
     setFingeringOnFrettedInstrument str Nothing = str 
-    setFingeringOnFrettedInstrument (s:ss) (Just c) = (if (s==c) then s{fingeredFret=(fingeredFret c)} else s) : (setFingeringOnFrettedInstrument ss (Just c))
+    setFingeringOnFrettedInstrument (s:ss) (Just c) = (if (sameInstrumentString s c) then s{fingeredFret=(fingeredFret c)} else s) : (setFingeringOnFrettedInstrument ss (Just c))
 
 
     getChordBaseString :: FrettedInstrument -> InstrumentString

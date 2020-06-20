@@ -2,6 +2,7 @@ module InstrumentModel.TestModelSpec (spec) where
 
     import Test.Hspec
     import InstrumentModel.Model
+    import Control.Monad
 
     spec :: Spec
     spec = do 
@@ -62,17 +63,65 @@ module InstrumentModel.TestModelSpec (spec) where
                     testCaseInit = [(InstrumentString 1 0 X), (InstrumentString 2 7 X), (InstrumentString 3 14 X), (InstrumentString 4 21 X)] 
                     testCaseExpected = [(InstrumentString 1 0 X), (InstrumentString 2 7 (Fret 6)), (InstrumentString 3 14 X), (InstrumentString 4 21 X)] 
 
+
+    fingeringTestCases :: [(String, [InstrumentString], InstrumentString, ChromaticInterval, [InstrumentString])]
+    fingeringTestCases = [
+        (
+            "Terze maggiori",
+            [(InstrumentString 1 0 X), (InstrumentString 2 7 X), (InstrumentString 3 14 X), (InstrumentString 4 21 X)],
+            (InstrumentString 1 0 (Fret 5)),
+            4 :: ChromaticInterval,
+            [   (InstrumentString 1 0 X),
+                (InstrumentString 2 7 (Fret 2)),
+                (InstrumentString 3 14 (Fret 7)),
+                -- (InstrumentString 4 21 (Fret 0))
+                (InstrumentString 4 21 X)
+                ] 
+        ),  
+        (
+            "Terze minori",
+            [(InstrumentString 1 0 X), (InstrumentString 2 7 X), (InstrumentString 3 14 X), (InstrumentString 4 21 X)],
+            (InstrumentString 1 0 (Fret 5)),
+            3 :: ChromaticInterval,
+            [   (InstrumentString 1 0 X),
+                (InstrumentString 2 7 (Fret 1)),
+                (InstrumentString 3 14 (Fret 6)),
+                (InstrumentString 4 21 (Fret 11))
+                ] 
+        ), 
+        (
+            "Quinte",
+            [(InstrumentString 1 0 X), (InstrumentString 2 7 X), (InstrumentString 3 14 X), (InstrumentString 4 21 X)],
+            (InstrumentString 1 0 (Fret 5)),
+            7 :: ChromaticInterval,
+            [   (InstrumentString 1 0 X),
+                (InstrumentString 2 7 (Fret 5)),
+                (InstrumentString 3 14 (Fret 10)),
+                (InstrumentString 4 21 (Fret 3))
+                ] 
+        ),
+        (
+            "Seste",
+            [(InstrumentString 1 0 X), (InstrumentString 2 7 X), (InstrumentString 3 14 X), (InstrumentString 4 21 X)],
+            (InstrumentString 1 0 (Fret 5)),
+            9 :: ChromaticInterval,
+            [   (InstrumentString 1 0 X),
+                (InstrumentString 2 7 (Fret 7)),
+                (InstrumentString 3 14 X),
+                (InstrumentString 4 21 (Fret 5))
+                ] 
+        )       
+        ]
+
     testFindPossibleFingeringsForChromaticInterval :: Spec
     testFindPossibleFingeringsForChromaticInterval = do 
-        describe "" $ do
-            it "testFindPossibleFingeringsForChromaticInterval  " $ do
-                (findPossibleFingeringsForChromaticInterval baseInstrument firstFingering interval) `shouldBe` fingeringsExpected
-                where 
-                    baseInstrument = [(InstrumentString 1 0 X), (InstrumentString 2 7 X), (InstrumentString 3 14 X), (InstrumentString 4 21 X)] 
-                    firstFingering = (InstrumentString 1 0 (Fret 5))
-                    interval=9
-                    fingeringsExpected = [InstrumentString {stringNumber = 1, stringTuning = 0, fingeredFret = X},InstrumentString {stringNumber = 2, stringTuning = 7, fingeredFret = Fret 7},InstrumentString {stringNumber = 3, stringTuning = 14, fingeredFret = X},InstrumentString {stringNumber = 4, stringTuning = 21, fingeredFret = Fret 5}] 
-
+        forM_  
+            fingeringTestCases $
+            \(descr, instrument, fingering, interval, expected) -> 
+                it descr $ do
+                    (findPossibleFingeringsForChromaticInterval instrument fingering interval) `shouldBe` expected
+                
+ 
     testFindChromaticIntervalFingeringsOnOtherStrings :: Spec
     testFindChromaticIntervalFingeringsOnOtherStrings = do 
         describe "" $ do
