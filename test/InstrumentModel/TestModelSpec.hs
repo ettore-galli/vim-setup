@@ -13,7 +13,7 @@ module InstrumentModel.TestModelSpec (spec) where
             testGetMaxPos
             testFingerNote
             testFindPossibleFingeringsForChromaticInterval
-            testFindPossibleFingeringsForChromaticIntervalNew
+            -- testFindPossibleFingeringsForChromaticIntervalNew
             testFindChromaticIntervalFingeringsOnOtherStrings
             testGetFingeringsDistance
             testGetChordBaseString
@@ -23,9 +23,9 @@ module InstrumentModel.TestModelSpec (spec) where
     testgetInstrumentString :: Spec
     testgetInstrumentString = do
         describe "" $ do
-            it "getInstrumentStringKeyPosition 1" $ do
-                (getInstrumentStringKeyPosition (InstrumentString 1 0 (Fret 1))) `shouldBe` (1 :: Int)
-            it "getInstrumentStringKeyPosition X" $ do
+            it "getFretPosition 1" $ do
+                (getFretPosition (InstrumentString 1 0 (Fret 1))) `shouldBe` (1 :: Int)
+            it "getFretPosition X" $ do
                 (fingeredFret (InstrumentString 1 0 X)) `shouldBe` X  
 
 
@@ -122,7 +122,7 @@ module InstrumentModel.TestModelSpec (spec) where
                 it descr $ do
                     (findPossibleFingeringsForChromaticInterval instrument fingering interval) `shouldBe` expected
                 
-
+    {-
     testFindPossibleFingeringsForChromaticIntervalNew :: Spec
     testFindPossibleFingeringsForChromaticIntervalNew = do 
         forM_  
@@ -131,6 +131,7 @@ module InstrumentModel.TestModelSpec (spec) where
                 it descr $ do
                     (findPossibleFingeringsForChromaticIntervalNew instrument fingering interval) `shouldBe` expected
 
+    -}
 
     testFindChromaticIntervalFingeringsOnOtherStrings :: Spec
     testFindChromaticIntervalFingeringsOnOtherStrings = do 
