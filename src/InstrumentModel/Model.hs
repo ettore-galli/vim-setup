@@ -60,19 +60,40 @@ module InstrumentModel.Model where
 
     findPossibleFingeringsForChromaticInterval :: [InstrumentString] -> InstrumentString -> ChromaticInterval -> [InstrumentString]
     findPossibleFingeringsForChromaticInterval [] _ _ = []
-    findPossibleFingeringsForChromaticInterval (s:ss) cref i = (if ((not $ sameInstrumentString s cref) && ((fingeredFret s)) == X && nFret > 0) 
-                                                then s{fingeredFret = (Fret nFret)}
-                                                else s) : (findPossibleFingeringsForChromaticInterval ss cref i)
-        where   stringTuningRef = mod (stringTuning cref) 12 -- stringTuning corda vuota
-                notaRef = mod ((stringTuning cref) + (getInstrumentStringKeyPosition cref)) 12 -- nota risultante base
-                notaX = notaRef + i -- nota desiderata
-                nFret = mod (notaX - (stringTuning s)) 12 -- fingeredFret sulla corda
+    findPossibleFingeringsForChromaticInterval (s:ss) refInstrumentString i = (
+                                                if ((not $ sameInstrumentString s refInstrumentString) && ((fingeredFret s) == X) && (desiredNoteFretNumber > 0)) 
+                                                then s{fingeredFret = (Fret desiredNoteFretNumber)}
+                                                else s) : (findPossibleFingeringsForChromaticInterval ss refInstrumentString i)
+        where   refStringTuning = mod (stringTuning refInstrumentString) 12 -- This is the tuning for the unfretted string
+                refStringNote = mod ((stringTuning refInstrumentString) + (getInstrumentStringKeyPosition refInstrumentString)) 12 -- This is the actual note of the reference string given the fret presse
+                desiredNote = refStringNote + i -- This is the desired note (interval from the reerence actual note)
+                desiredNoteFretNumber = mod (desiredNote - (stringTuning s)) 12 -- This is the fret number for the desired note, on the actual ("new" string)
 
-    -- TODO: Serve?
+
+    findFingeringOnString :: InstrumentString -> InstrumentString -> ChromaticInterval -> InstrumentString
+    findFingeringOnString st ref i = st{fingeredFret = (Fret desiredNoteFretNumber)}
+        where   refStringTuning = mod (stringTuning ref) 12 -- This is the tuning for the unfretted string
+                refStringNote = mod ((stringTuning ref) + (getInstrumentStringKeyPosition ref)) 12 -- This is the actual note of the reference string given the fret presse
+                desiredNote = refStringNote + i -- This is the desired note (interval from the reerence actual note)
+                desiredNoteFretNumber = mod (desiredNote - (stringTuning st)) 12 -- This is the fret number for the desired note, on the actual ("new" string)
+
+
+    findPossibleFingeringsForChromaticIntervalNew :: [InstrumentString] -> InstrumentString -> ChromaticInterval -> [InstrumentString]
+    findPossibleFingeringsForChromaticIntervalNew [] _ _ = []
+    findPossibleFingeringsForChromaticIntervalNew (s:ss) refInstrumentString i = (
+                                                if ((not $ sameInstrumentString s refInstrumentString) && ((fingeredFret s) == X) && (desiredNoteFretNumber > 0)) 
+                                                then s{fingeredFret = (Fret desiredNoteFretNumber)}
+                                                else s) : (findPossibleFingeringsForChromaticIntervalNew ss refInstrumentString i)
+        where   refStringTuning = mod (stringTuning refInstrumentString) 12 -- This is the tuning for the unfretted string
+                refStringNote = mod ((stringTuning refInstrumentString) + (getInstrumentStringKeyPosition refInstrumentString)) 12 -- This is the actual note of the reference string given the fret presse
+                desiredNote = refStringNote + i -- This is the desired note (interval from the reerence actual note)
+                desiredNoteFretNumber = mod (desiredNote - (stringTuning s)) 12 -- This is the fret number for the desired note, on the actual ("new" string)
+
+
     findChromaticIntervalFingeringsOnOtherStrings :: [InstrumentString] -> InstrumentString -> ChromaticInterval -> [InstrumentString]
-    findChromaticIntervalFingeringsOnOtherStrings s cref i = findPossibleFingeringsForChromaticInterval 
+    findChromaticIntervalFingeringsOnOtherStrings s refInstrumentString i = findPossibleFingeringsForChromaticInterval 
             (filter (\c -> (fingeredFret c) == X) s)
-            cref
+            refInstrumentString
             i
 
     getFingeringsDistance :: InstrumentString -> InstrumentString -> Int
@@ -80,8 +101,8 @@ module InstrumentModel.Model where
 
 
     calculateBestFingeringForChromaticInterval :: InstrumentString -> [InstrumentString] -> Maybe InstrumentString
-    calculateBestFingeringForChromaticInterval cref [] = Nothing 
-    calculateBestFingeringForChromaticInterval cref (f:fs) = Just (foldl (\acc curr -> if (getFingeringsDistance cref curr) <= (getFingeringsDistance cref acc) then curr else acc ) f (f:fs))
+    calculateBestFingeringForChromaticInterval refInstrumentString [] = Nothing 
+    calculateBestFingeringForChromaticInterval refInstrumentString (f:fs) = Just (foldl (\acc curr -> if (getFingeringsDistance refInstrumentString curr) <= (getFingeringsDistance refInstrumentString acc) then curr else acc ) f (f:fs))
 
 
     setFingeringOnFrettedInstrument  :: FrettedInstrument -> Maybe InstrumentString -> FrettedInstrument
@@ -99,14 +120,15 @@ module InstrumentModel.Model where
     getFingeringForChordDefinition str acc = foldl 
                         (\s i -> 
                             setFingeringOnFrettedInstrument s (
-                                calculateBestFingeringForChromaticInterval cref (
-                                        findChromaticIntervalFingeringsOnOtherStrings str cref i
+                                calculateBestFingeringForChromaticInterval refInstrumentString (
+                                        -- findChromaticIntervalFingeringsOnOtherStrings str refInstrumentString i
+                                        findPossibleFingeringsForChromaticInterval str refInstrumentString i
                                     )
                                 )
                             ) 
                         str 
                         acc
-                    where cref = getChordBaseString str    
+                    where refInstrumentString = getChordBaseString str    
 
     {-
 
