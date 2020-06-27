@@ -1,7 +1,7 @@
 
-module Rendering.TextRender where
+module Legacy.Rendering.TextRender where
 
-import InstrumentModel.Model 
+import Legacy.InstrumentModel.Model 
 
 newLine :: String
 newLine = "\r\n"

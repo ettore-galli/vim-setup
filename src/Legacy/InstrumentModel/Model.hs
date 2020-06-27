@@ -1,4 +1,4 @@
-module InstrumentModel.Model where
+module Legacy.InstrumentModel.Model where
      
     data Fret = X | Fret Int deriving Show 
 

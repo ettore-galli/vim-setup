@@ -1,5 +1,5 @@
-module InstrumentModel.Ukulele where
-    import InstrumentModel.Model 
+module Legacy.InstrumentModel.Ukulele where
+    import Legacy.InstrumentModel.Model 
 
     uku5 :: FrettedInstrument
     uku5 = [(InstrumentString 1 0 X), (InstrumentString 2 7 X), (InstrumentString 3 14 X), (InstrumentString 4 21 X)] 

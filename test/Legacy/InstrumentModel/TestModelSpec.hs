@@ -1,7 +1,7 @@
-module InstrumentModel.TestModelSpec (spec) where
+module Legacy.InstrumentModel.TestModelSpec (spec) where
 
     import Test.Hspec
-    import InstrumentModel.Model
+    import Legacy.InstrumentModel.Model
     import Control.Monad
 
     spec :: Spec

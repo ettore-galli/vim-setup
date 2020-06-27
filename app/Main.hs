@@ -1,8 +1,8 @@
 module Main where
 
-import InstrumentModel.Model 
-import InstrumentModel.Ukulele
-import Rendering.TextRender
+import Legacy.InstrumentModel.Model 
+import Legacy.InstrumentModel.Ukulele
+import Legacy.Rendering.TextRender
 
 renderChordsList :: [(String, FrettedInstrument)] -> IO()
 renderChordsList [] = putStrLn "*"
