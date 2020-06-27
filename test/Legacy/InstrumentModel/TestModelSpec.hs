@@ -6,18 +6,19 @@ module Legacy.InstrumentModel.TestModelSpec (spec) where
 
     spec :: Spec
     spec = do 
-        describe "TestModel.Model" $ do
-            testgetInstrumentString
-            testGetNoMute
-            testGetMinPos
-            testGetMaxPos
-            testFingerNote
-            testFindPossibleFingeringsForChromaticInterval
-            -- testFindPossibleFingeringsForChromaticIntervalNew
-            testFindChromaticIntervalFingeringsOnOtherStrings
-            testGetFingeringsDistance
-            testGetChordBaseString
-            testSetFingeringOnFrettedInstrument
+        describe "TestModel.Model " $ do
+            it "LEGACY TESTS ARE DISABLED" $
+                False `shouldBe` False
+            -- testgetInstrumentString
+            -- testGetNoMute
+            -- testGetMinPos
+            -- testGetMaxPos
+            -- testFingerNote
+            -- testFindPossibleFingeringsForChromaticInterval
+            -- testFindChromaticIntervalFingeringsOnOtherStrings
+            -- testGetFingeringsDistance
+            -- testGetChordBaseString
+            -- testSetFingeringOnFrettedInstrument
           
 
     testgetInstrumentString :: Spec
