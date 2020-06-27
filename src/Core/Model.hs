@@ -1,10 +1,10 @@
 module Core.Model where
      
     {-| 
-    Single fret fingering, X for unstrummed string, Fret 0 for open string 
+    Single fret fingering, Nothing for unstrummed string, 0 for open string 
     -}
-    data Fret = X | Fret Int deriving (Show, Eq)
-
+    --data Fret = X | Fret Int deriving (Show, Eq)
+    type Fingering = Maybe Int --deriving (Show, Eq)
 
     {-| 
     A single string, the way it is tuned and how it is fingered.
@@ -14,7 +14,7 @@ module Core.Model where
     -}
     data TunedString = TunedString {
         tuning :: Int, 
-        fret :: Fret
+        fingering :: Fingering
         } deriving (Show, Eq)
 
     {-|

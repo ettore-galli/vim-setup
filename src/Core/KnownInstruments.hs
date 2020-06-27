@@ -3,7 +3,7 @@ module Core.KnownInstruments where
     import Core.Model
 
     ukuleleHighG :: Instrument 
-    ukuleleHighG = [(TunedString 7 X), (TunedString 0 X), (TunedString 4 X), (TunedString 9 X)]
+    ukuleleHighG = [(TunedString 7 Nothing), (TunedString 0 Nothing), (TunedString 4 Nothing), (TunedString 9 Nothing)]
 
     mandolin :: Instrument 
-    mandolin = [(TunedString 0 X), (TunedString 7 X), (TunedString 14 X), (TunedString 21 X)]
+    mandolin = [(TunedString 0 Nothing), (TunedString 7 Nothing), (TunedString 14 Nothing), (TunedString 21 Nothing)]

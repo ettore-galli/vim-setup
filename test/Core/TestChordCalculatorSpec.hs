@@ -12,11 +12,11 @@ module Core.TestChordCalculatorSpec (spec) where
             testApplyFingeringOnTunedString
             testApplyFingeringsOnInstrument
 
-    fingeringTestCases :: [(String, TunedString, Fret, TunedString)]
+    fingeringTestCases :: [(String, TunedString, Fingering, TunedString)]
     fingeringTestCases = [
-        ("No fingering", (TunedString 0 X), X, (TunedString 0 X)),
-        ("First Fret", (TunedString 0 X), (Fret 1), (TunedString 0 (Fret 1))),
-        ("Change Fret", (TunedString 0 (Fret 1)), (Fret 2), (TunedString 0 (Fret 2)))
+        ("No fingering", (TunedString 0 Nothing), Nothing, (TunedString 0 Nothing)),
+        ("First Just", (TunedString 0 Nothing), (Just 1), (TunedString 0 (Just 1))),
+        ("Change Just", (TunedString 0 (Just 1)), (Just 2), (TunedString 0 (Just 2)))
         ]
 
     testApplyFingeringOnTunedString :: Spec
@@ -24,39 +24,39 @@ module Core.TestChordCalculatorSpec (spec) where
         describe "testApplyFingeringOnTunedString" $
             forM_  
                 fingeringTestCases $
-                \(descr, string, fret, expected) -> 
+                \(descr, string, fingering, expected) -> 
                     it descr $ do
-                        (applyFingeringOnTunedString string fret) `shouldBe` expected
+                        (applyFingeringOnTunedString string fingering) `shouldBe` expected
 
 
  
 
-    instrumentFingeringTestCases :: [(String, Instrument, [Maybe Fret], Instrument)]
+    instrumentFingeringTestCases :: [(String, Instrument, [Fingering], Instrument)]
     instrumentFingeringTestCases = [
         ("String 1", 
-        [(TunedString 7 X), (TunedString 0 X), (TunedString 4 X), (TunedString 9 X)], 
-        [Just (Fret 3), Nothing, Nothing, Nothing], 
-        [(TunedString 7 (Fret 3)), (TunedString 0 X), (TunedString 4 X), (TunedString 9 X)]
+        [(TunedString 7 Nothing), (TunedString 0 Nothing), (TunedString 4 Nothing), (TunedString 9 Nothing)], 
+        [(Just 3), Nothing, Nothing, Nothing], 
+        [(TunedString 7 (Just 3)), (TunedString 0 Nothing), (TunedString 4 Nothing), (TunedString 9 Nothing)]
         ),
         ("String 2", 
-        [(TunedString 7 X), (TunedString 0 X), (TunedString 4 X), (TunedString 9 X)], 
-        [Nothing, Just (Fret 3), Nothing, Nothing], 
-        [(TunedString 7 X), (TunedString 0 (Fret 3)), (TunedString 4 X), (TunedString 9 X)]
+        [(TunedString 7 Nothing), (TunedString 0 Nothing), (TunedString 4 Nothing), (TunedString 9 Nothing)], 
+        [Nothing, (Just 3), Nothing, Nothing], 
+        [(TunedString 7 Nothing), (TunedString 0 (Just 3)), (TunedString 4 Nothing), (TunedString 9 Nothing)]
         ),        
         ("String 3", 
-        [(TunedString 7 X), (TunedString 0 X), (TunedString 4 X), (TunedString 9 X)], 
-        [Nothing, Nothing, Just (Fret 3),  Nothing], 
-        [(TunedString 7 X), (TunedString 0 X), (TunedString 4 (Fret 3)), (TunedString 9 X)]
+        [(TunedString 7 Nothing), (TunedString 0 Nothing), (TunedString 4 Nothing), (TunedString 9 Nothing)], 
+        [Nothing, Nothing, (Just 3),  Nothing], 
+        [(TunedString 7 Nothing), (TunedString 0 Nothing), (TunedString 4 (Just 3)), (TunedString 9 Nothing)]
         ),    
         ("String 4", 
-        [(TunedString 7 X), (TunedString 0 X), (TunedString 4 X), (TunedString 9 X)], 
-        [Nothing, Nothing, Nothing, Just (Fret 3)], 
-        [(TunedString 7 X), (TunedString 0 X), (TunedString 4 X), (TunedString 9 (Fret 3))]
+        [(TunedString 7 Nothing), (TunedString 0 Nothing), (TunedString 4 Nothing), (TunedString 9 Nothing)], 
+        [Nothing, Nothing, Nothing, (Just 3)], 
+        [(TunedString 7 Nothing), (TunedString 0 Nothing), (TunedString 4 Nothing), (TunedString 9 (Just 3))]
         ), 
         ("All Strings at a time", 
-        [(TunedString 7 X), (TunedString 0 X), (TunedString 4 X), (TunedString 9 X)], 
-        [Just (Fret 1), Just (Fret 2), Just (Fret 3), Just (Fret 4)], 
-        [(TunedString 7 (Fret 1)), (TunedString 0 (Fret 2)), (TunedString 4 (Fret 3)), (TunedString 9 (Fret 4))]
+        [(TunedString 7 Nothing), (TunedString 0 Nothing), (TunedString 4 Nothing), (TunedString 9 Nothing)], 
+        [(Just 1), (Just 2), (Just 3), (Just 4)], 
+        [(TunedString 7 (Just 1)), (TunedString 0 (Just 2)), (TunedString 4 (Just 3)), (TunedString 9 (Just 4))]
         )                 
         ]
 
@@ -65,6 +65,6 @@ module Core.TestChordCalculatorSpec (spec) where
         describe "testApplyFingeringsOnInstrument" $
             forM_  
                 instrumentFingeringTestCases $
-                \(descr, instrument, frets, expected) -> 
+                \(descr, instrument, fingerings, expected) -> 
                     it descr $ do
-                        (applyFingeringsOnInstrument instrument frets) `shouldBe` expected
+                        (applyFingeringsOnInstrument instrument fingerings) `shouldBe` expected

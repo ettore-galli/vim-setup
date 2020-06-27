@@ -21,4 +21,4 @@ main = do
 import Core.Model
 
 main = do 
-        putStrLn $ show (Fret 6)
+        putStrLn $ show (Just 6)
