@@ -18,7 +18,7 @@ main = do
  
 -}
 
-import InstrumentModel.Model
+import Core.Model
 
 main = do 
         putStrLn $ show (Fret 6)
