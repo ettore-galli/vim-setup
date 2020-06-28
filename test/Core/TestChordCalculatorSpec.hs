@@ -16,6 +16,7 @@ module Core.TestChordCalculatorSpec (spec) where
             testParseFingering
             testParseFingeringsFromList
             testGetMinPosition
+            testGetMaxPosition
 
     fingeringTestCases :: [(String, TunedString, Fingering, TunedString)]
     fingeringTestCases = [
@@ -145,4 +146,17 @@ module Core.TestChordCalculatorSpec (spec) where
         describe "testGetMinPosition" $ do
             it "Base case" $ do
                 (getMinPosition [(TunedString 7 Nothing), (TunedString 0 (Just 4)), (TunedString 4 (Just 3)), (TunedString 9 (Just 2))]) `shouldBe` 2
+            it "Interleaved case" $ do
+                (getMinPosition [(TunedString 7 Nothing), (TunedString 0 (Just 5)), (TunedString 4 Nothing), (TunedString 9 (Just 3))]) `shouldBe` 3
+            it "Interleaved case reversed" $ do
+                (getMinPosition [(TunedString 7 Nothing), (TunedString 0 (Just 3)), (TunedString 4 Nothing), (TunedString 9 (Just 5))]) `shouldBe` 3
 
+    testGetMaxPosition :: Spec
+    testGetMaxPosition = do
+        describe "testGetMinPosition" $ do
+            it "Base case" $ do
+                (getMaxPosition [(TunedString 7 Nothing), (TunedString 0 (Just 4)), (TunedString 4 (Just 3)), (TunedString 9 (Just 2))]) `shouldBe` 4
+            it "Interleaved case" $ do
+                (getMaxPosition [(TunedString 7 Nothing), (TunedString 0 (Just 5)), (TunedString 4 Nothing), (TunedString 9 (Just 3))]) `shouldBe` 5
+            it "Interleaved case reversed" $ do
+                (getMaxPosition [(TunedString 7 Nothing), (TunedString 0 (Just 3)), (TunedString 4 Nothing), (TunedString 9 (Just 7))]) `shouldBe` 7

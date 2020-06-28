@@ -72,6 +72,11 @@ module Core.ChordCalculator where
     getMinPosition ((TunedString _ Nothing):ss) = getMinPosition ss
     getMinPosition ((TunedString _ (Just n)):ss) = min n (getMinPosition ss) 
 
+    getMaxPosition :: Instrument -> Int
+    getMaxPosition [(TunedString _ (Just n))] = n
+    getMaxPosition ((TunedString _ Nothing):ss) = getMaxPosition ss
+    getMaxPosition ((TunedString _ (Just n)):ss) = max n (getMaxPosition ss)
+
     findIntervalOnTunedString :: TunedString -> Interval -> TunedString
     findIntervalOnTunedString string interval = undefined
 

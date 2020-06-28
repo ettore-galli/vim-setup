@@ -17,6 +17,8 @@ module Rendering.TextRendering where
         | cp == 3 = (show cp) ++ "rd"
         | otherwise = (show cp) ++ "th"
 
+    
+
     {-
     renderInstrumentStringTastata:: Int -> Int -> InstrumentString -> String
     renderInstrumentStringTastata minp mp c = if mp >= minp 
