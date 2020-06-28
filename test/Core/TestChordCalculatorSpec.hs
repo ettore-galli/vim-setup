@@ -16,9 +16,9 @@ module Core.TestChordCalculatorSpec (spec) where
 
     fingeringTestCases :: [(String, TunedString, Fingering, TunedString)]
     fingeringTestCases = [
-        ("No fingering", (TunedString 0 Nothing), Nothing, (TunedString 0 Nothing)),
-        ("First Just", (TunedString 0 Nothing), (Just 1), (TunedString 0 (Just 1))),
-        ("Change Just", (TunedString 0 (Just 1)), (Just 2), (TunedString 0 (Just 2)))
+            ("No fingering", (TunedString 0 Nothing), Nothing, (TunedString 0 Nothing)),
+            ("First Just", (TunedString 0 Nothing), (Just 1), (TunedString 0 (Just 1))),
+            ("Change Just", (TunedString 0 (Just 1)), (Just 2), (TunedString 0 (Just 2)))
         ]
 
     testApplyFingeringOnTunedString :: Spec
@@ -73,31 +73,36 @@ module Core.TestChordCalculatorSpec (spec) where
 
     instrumentFingeringTestCases :: [(String, Instrument, [Fingering], Instrument)]
     instrumentFingeringTestCases = [
-        ("String 1", 
-        [(TunedString 7 Nothing), (TunedString 0 Nothing), (TunedString 4 Nothing), (TunedString 9 Nothing)], 
-        [(Just 3), Nothing, Nothing, Nothing], 
-        [(TunedString 7 (Just 3)), (TunedString 0 Nothing), (TunedString 4 Nothing), (TunedString 9 Nothing)]
-        ),
-        ("String 2", 
-        [(TunedString 7 Nothing), (TunedString 0 Nothing), (TunedString 4 Nothing), (TunedString 9 Nothing)], 
-        [Nothing, (Just 3), Nothing, Nothing], 
-        [(TunedString 7 Nothing), (TunedString 0 (Just 3)), (TunedString 4 Nothing), (TunedString 9 Nothing)]
-        ),        
-        ("String 3", 
-        [(TunedString 7 Nothing), (TunedString 0 Nothing), (TunedString 4 Nothing), (TunedString 9 Nothing)], 
-        [Nothing, Nothing, (Just 3),  Nothing], 
-        [(TunedString 7 Nothing), (TunedString 0 Nothing), (TunedString 4 (Just 3)), (TunedString 9 Nothing)]
-        ),    
-        ("String 4", 
-        [(TunedString 7 Nothing), (TunedString 0 Nothing), (TunedString 4 Nothing), (TunedString 9 Nothing)], 
-        [Nothing, Nothing, Nothing, (Just 3)], 
-        [(TunedString 7 Nothing), (TunedString 0 Nothing), (TunedString 4 Nothing), (TunedString 9 (Just 3))]
-        ), 
-        ("All Strings at a time", 
-        [(TunedString 7 Nothing), (TunedString 0 Nothing), (TunedString 4 Nothing), (TunedString 9 Nothing)], 
-        [(Just 1), (Just 2), (Just 3), (Just 4)], 
-        [(TunedString 7 (Just 1)), (TunedString 0 (Just 2)), (TunedString 4 (Just 3)), (TunedString 9 (Just 4))]
-        )                 
+        (
+                "String 1", 
+            [(TunedString 7 Nothing), (TunedString 0 Nothing), (TunedString 4 Nothing), (TunedString 9 Nothing)], 
+            [(Just 3), Nothing, Nothing, Nothing], 
+            [(TunedString 7 (Just 3)), (TunedString 0 Nothing), (TunedString 4 Nothing), (TunedString 9 Nothing)]
+            ),
+        (
+            "String 2", 
+            [(TunedString 7 Nothing), (TunedString 0 Nothing), (TunedString 4 Nothing), (TunedString 9 Nothing)], 
+            [Nothing, (Just 3), Nothing, Nothing], 
+            [(TunedString 7 Nothing), (TunedString 0 (Just 3)), (TunedString 4 Nothing), (TunedString 9 Nothing)]
+            ),        
+        (
+            "String 3", 
+            [(TunedString 7 Nothing), (TunedString 0 Nothing), (TunedString 4 Nothing), (TunedString 9 Nothing)], 
+            [Nothing, Nothing, (Just 3),  Nothing], 
+            [(TunedString 7 Nothing), (TunedString 0 Nothing), (TunedString 4 (Just 3)), (TunedString 9 Nothing)]
+            ),    
+        (
+            "String 4", 
+            [(TunedString 7 Nothing), (TunedString 0 Nothing), (TunedString 4 Nothing), (TunedString 9 Nothing)], 
+            [Nothing, Nothing, Nothing, (Just 3)], 
+            [(TunedString 7 Nothing), (TunedString 0 Nothing), (TunedString 4 Nothing), (TunedString 9 (Just 3))]
+            ), 
+        (
+            "All Strings at a time", 
+            [(TunedString 7 Nothing), (TunedString 0 Nothing), (TunedString 4 Nothing), (TunedString 9 Nothing)], 
+            [(Just 1), (Just 2), (Just 3), (Just 4)], 
+            [(TunedString 7 (Just 1)), (TunedString 0 (Just 2)), (TunedString 4 (Just 3)), (TunedString 9 (Just 4))]
+            )                 
         ]
 
     testApplyFingeringsOnInstrument :: Spec
