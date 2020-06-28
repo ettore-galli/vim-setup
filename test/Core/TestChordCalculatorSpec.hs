@@ -15,6 +15,7 @@ module Core.TestChordCalculatorSpec (spec) where
             testParseInstrumentFromTunings
             testParseFingering
             testParseFingeringsFromList
+            testGetMinPosition
 
     fingeringTestCases :: [(String, TunedString, Fingering, TunedString)]
     fingeringTestCases = [
@@ -138,3 +139,10 @@ module Core.TestChordCalculatorSpec (spec) where
         describe "testParseFingeringsFromList" $ do
             it "Example 1" $ do
                 (parseFingeringsFromList " 10 X 10 12") `shouldBe` [(Just 10), Nothing, (Just 10), (Just 12)]
+
+    testGetMinPosition :: Spec
+    testGetMinPosition = do
+        describe "testGetMinPosition" $ do
+            it "Base case" $ do
+                (getMinPosition [(TunedString 7 Nothing), (TunedString 0 (Just 4)), (TunedString 4 (Just 3)), (TunedString 9 (Just 2))]) `shouldBe` 2
+

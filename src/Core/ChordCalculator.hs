@@ -67,6 +67,11 @@ module Core.ChordCalculator where
     parseFingeringsFromList :: String -> [Fingering]
     parseFingeringsFromList fingerings = map (\t -> parseFingering t) (words fingerings)
 
+    getMinPosition :: Instrument -> Int
+    getMinPosition [(TunedString _ (Just n))] = n
+    getMinPosition ((TunedString _ Nothing):ss) = getMinPosition ss
+    getMinPosition ((TunedString _ (Just n)):ss) = min n (getMinPosition ss) 
+
     findIntervalOnTunedString :: TunedString -> Interval -> TunedString
     findIntervalOnTunedString string interval = undefined
 
