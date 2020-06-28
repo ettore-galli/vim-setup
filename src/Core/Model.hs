@@ -3,7 +3,6 @@ module Core.Model where
     {-| 
     Single fret fingering, Nothing for unstrummed string, 0 for open string 
     -}
-    --data Fret = X | Fret Int deriving (Show, Eq)
     type Fingering = Maybe Int --deriving (Show, Eq)
 
     {-| 

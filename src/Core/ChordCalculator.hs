@@ -7,7 +7,7 @@ module Core.ChordCalculator where
     -}
     applyFingeringOnTunedString :: TunedString -> Fingering -> TunedString
     applyFingeringOnTunedString t Nothing = t
-    applyFingeringOnTunedString (TunedString tuning _ ) fingering = TunedString tuning fingering
+    applyFingeringOnTunedString (TunedString tuning fg) (Just n) = TunedString tuning (Just n) 
 
     {-|
     Given an instrument and and a corresponding list of frets, apply the fingering(s) to the instrument.
@@ -15,7 +15,7 @@ module Core.ChordCalculator where
     applyFingeringsOnInstrument :: Instrument -> [Fingering] -> Instrument
     applyFingeringsOnInstrument [] _ = []
     applyFingeringsOnInstrument _ [] = []
-    applyFingeringsOnInstrument (s:ss) (f:fs) = s : (applyFingeringsOnInstrument ss fs)
+    applyFingeringsOnInstrument (s:ss) (f:fs) = (applyFingeringOnTunedString s f) : (applyFingeringsOnInstrument ss fs)
 
     {-|
     Given an instrument, string and fingering build list of frets for fingerings
