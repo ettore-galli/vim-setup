@@ -13,6 +13,8 @@ module Core.TestChordCalculatorSpec (spec) where
             testPrepareFingerings
             testApplyFingeringsOnInstrument
             testParseInstrumentFromTunings
+            testParseFingering
+            testParseFingeringsFromList
 
     fingeringTestCases :: [(String, TunedString, Fingering, TunedString)]
     fingeringTestCases = [
@@ -122,3 +124,17 @@ module Core.TestChordCalculatorSpec (spec) where
                 (parseInstrumentFromTunings [0, 7, 14, 21]) 
                 `shouldBe` 
                 [(TunedString 0 Nothing), (TunedString 7 Nothing), (TunedString 14 Nothing), (TunedString 21 Nothing)]
+
+    testParseFingering :: Spec
+    testParseFingering = do
+        describe "testParseFingering" $ do
+            it "Unstrummed" $ do
+                (parseFingering "X") `shouldBe` Nothing
+            it "Third fret" $ do
+                (parseFingering "3") `shouldBe` Just 3
+
+    testParseFingeringsFromList :: Spec
+    testParseFingeringsFromList= do
+        describe "testParseFingeringsFromList" $ do
+            it "Example 1" $ do
+                (parseFingeringsFromList " 10 X 10 12") `shouldBe` [(Just 10), Nothing, (Just 10), (Just 12)]

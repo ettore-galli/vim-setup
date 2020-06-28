@@ -41,9 +41,31 @@ module Core.ChordCalculator where
     {-|
     Given a list of tunings, instantiate an instrument
     -}
-    parseInstrumentFromTunings :: [Tuning] -> Instrument
+    parseInstrumentFromTunings :: [Tuning]    -- ^ List of desired tunings
+                                -> Instrument -- ^ The resulting instrument
     parseInstrumentFromTunings tunings = map (\t -> TunedString t Nothing) tunings
 
+    {-|
+    Turn a descriptive fingering into a fingering
+    -}
+    parseFingering :: String -> Fingering
+    parseFingering tuning = case reads tuning of
+        [] -> Nothing
+        [(n, _)] -> Just n
+
+    {-|
+    Fingerings from a list of strings or numbers
+
+    Example:
+        X 12 0 10 -> First string unstrummed
+                     Second string twelfth fret
+                     Third string open
+                     Fourth string tenth fret   
+                     Disclaimer: Don't play this chord on a ukulele, it's horrible...
+
+    -}
+    parseFingeringsFromList :: String -> [Fingering]
+    parseFingeringsFromList fingerings = map (\t -> parseFingering t) (words fingerings)
 
     findIntervalOnTunedString :: TunedString -> Interval -> TunedString
     findIntervalOnTunedString string interval = undefined
