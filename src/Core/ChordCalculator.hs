@@ -38,9 +38,18 @@ module Core.ChordCalculator where
     applyFingeringsOnInstrument _ [] = []
     applyFingeringsOnInstrument (s:ss) (f:fs) = (applyFingeringOnTunedString s f) : (applyFingeringsOnInstrument ss fs)
 
+    {-|
+    Given a list of tunings, instantiate an instrument
+    -}
+    parseInstrumentFromTunings :: [Tuning] -> Instrument
+    parseInstrumentFromTunings tunings = map (\t -> TunedString t Nothing) tunings
+
 
     findIntervalOnTunedString :: TunedString -> Interval -> TunedString
     findIntervalOnTunedString string interval = undefined
 
     findIntervalOnInstrument :: Instrument -> Interval -> Instrument
     findIntervalOnInstrument instrument interval = undefined
+
+    addIntervalToTuningtry :: Tuning -> Interval -> Tuning
+    addIntervalToTuningtry a b = a + b 

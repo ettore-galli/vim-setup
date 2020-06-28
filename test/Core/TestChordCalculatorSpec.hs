@@ -12,6 +12,7 @@ module Core.TestChordCalculatorSpec (spec) where
             testApplyFingeringOnTunedString
             testPrepareFingerings
             testApplyFingeringsOnInstrument
+            testParseInstrumentFromTunings
 
     fingeringTestCases :: [(String, TunedString, Fingering, TunedString)]
     fingeringTestCases = [
@@ -107,3 +108,12 @@ module Core.TestChordCalculatorSpec (spec) where
                 \(descr, instrument, fingerings, expected) -> 
                     it descr $ do
                         (applyFingeringsOnInstrument instrument fingerings) `shouldBe` expected
+
+
+    testParseInstrumentFromTunings :: Spec
+    testParseInstrumentFromTunings = do
+        describe "testParseInstrumentFromTunings" $
+            it "Basic case" $ do
+                (parseInstrumentFromTunings [0, 7, 14, 21]) 
+                `shouldBe` 
+                [(TunedString 0 Nothing), (TunedString 7 Nothing), (TunedString 14 Nothing), (TunedString 21 Nothing)]

@@ -3,7 +3,12 @@ module Core.Model where
     {-| 
     Single fret fingering, Nothing for unstrummed string, 0 for open string 
     -}
-    type Fingering = Maybe Int --deriving (Show, Eq)
+    type Fingering = Maybe Int  
+
+    {-| 
+    String relative tuning in semitones
+    -}
+    type Tuning = Int  
 
     {-| 
     A single string, the way it is tuned and how it is fingered.
@@ -12,7 +17,7 @@ module Core.Model where
     fret: The fingering being applied to the string; X if the string is not played        
     -}
     data TunedString = TunedString {
-        tuning :: Int, 
+        tuning :: Tuning, 
         fingering :: Fingering
         } deriving (Show, Eq)
 
