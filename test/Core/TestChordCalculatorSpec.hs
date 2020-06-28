@@ -10,6 +10,7 @@ module Core.TestChordCalculatorSpec (spec) where
     spec = do 
         describe "Test module InstrumentModel.Model" $ do
             testApplyFingeringOnTunedString
+            testPrepareFingerings
             testApplyFingeringsOnInstrument
 
     fingeringTestCases :: [(String, TunedString, Fingering, TunedString)]
@@ -29,6 +30,44 @@ module Core.TestChordCalculatorSpec (spec) where
                         (applyFingeringOnTunedString string fingering) `shouldBe` expected
 
 
+    prepareFingeringTestCases :: [(String, Instrument, Int, Fingering, [Fingering])]
+    prepareFingeringTestCases = [
+            (
+                "String 1", 
+                [(TunedString 0 Nothing), (TunedString 0 Nothing), (TunedString 0 Nothing), (TunedString 0 Nothing)],
+                1, 
+                (Just 5),
+                [(Just 5), Nothing, Nothing, Nothing]
+                ),
+            (    
+                "String 2", [(TunedString 0 Nothing), (TunedString 0 Nothing), (TunedString 0 Nothing), (TunedString 0 Nothing)],
+                2, 
+                (Just 5),
+                [Nothing, (Just 5), Nothing, Nothing]
+                ),
+            (    
+                "String 3", [(TunedString 0 Nothing), (TunedString 0 Nothing), (TunedString 0 Nothing), (TunedString 0 Nothing)],
+                3, 
+                (Just 5),
+                [Nothing, Nothing, (Just 5), Nothing]
+                ),
+            (    
+                "String 4", 
+                [(TunedString 0 Nothing), (TunedString 0 Nothing), (TunedString 0 Nothing), (TunedString 0 Nothing)],
+                4, 
+                (Just 5),
+                [Nothing, Nothing, Nothing, (Just 5)]
+                )                                
+        ]
+
+    testPrepareFingerings :: Spec
+    testPrepareFingerings = do
+        describe "testPrepareFingerings" $
+            forM_  
+                prepareFingeringTestCases $
+                \(descr, instrument, strn, fingering, expected) -> 
+                    it descr $ do
+                        (prepareFingerings instrument strn fingering) `shouldBe` expected
  
 
     instrumentFingeringTestCases :: [(String, Instrument, [Fingering], Instrument)]
