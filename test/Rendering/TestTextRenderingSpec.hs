@@ -11,7 +11,9 @@ module Rendering.TestTextRenderingSpec (spec) where
     spec = do 
         describe "Test module InstrumentModel.Model" $ do
             testRenderCapoName
-             
+            testRenderMuteOrSeparator 
+            testRenderSingleString
+
 
     testRenderCapoName :: Spec
     testRenderCapoName = do
@@ -25,3 +27,24 @@ module Rendering.TestTextRenderingSpec (spec) where
             it "4" $ do
                 (renderCapoName 4) `shouldBe` "4th"                
  
+
+    testRenderMuteOrSeparator :: Spec
+    testRenderMuteOrSeparator = do
+        describe "testRenderMuteOrSeparator" $ do
+            it "Unstrummed" $ do
+                (renderMuteOrSeparator Nothing) `shouldBe` "X "
+            it "Oper string" $ do
+                (renderMuteOrSeparator (Just 0)) `shouldBe` "0 "                
+            it "Any fingering" $ do
+                (renderMuteOrSeparator (Just 1)) `shouldBe` "  "
+
+
+    testRenderSingleString :: Spec
+    testRenderSingleString = do
+        describe "testRenderSingleString" $ do
+            it "Unstrummed" $ do
+                (renderSingleString Nothing  2 5) `shouldBe` "X |---|---|---|---"
+            it "Open String" $ do
+                (renderSingleString (Just 0) 2 5) `shouldBe` "0 |---|---|---|---"
+            it "Fretted" $ do
+                (renderSingleString (Just 3) 2 5) `shouldBe` "  |---|-o-|---|---"             

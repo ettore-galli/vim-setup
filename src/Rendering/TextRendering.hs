@@ -2,6 +2,7 @@
 module Rendering.TextRendering where
 
     import Core.Model 
+    import Data.Maybe
 
     newLine :: String
     newLine = "\r\n"
@@ -17,7 +18,20 @@ module Rendering.TextRendering where
         | cp == 3 = (show cp) ++ "rd"
         | otherwise = (show cp) ++ "th"
 
-    
+    renderMuteOrSeparator :: Fingering -> String
+    renderMuteOrSeparator Nothing  = "X "
+    renderMuteOrSeparator (Just 0) = "0 "
+    renderMuteOrSeparator (Just n) = "  "
+
+    renderSingleString :: Fingering -> Int -> Int -> String
+    renderSingleString fingering minp maxp = 
+        (renderMuteOrSeparator fingering) ++ 
+        concat (
+            map 
+            (\p -> if (isJust fingering) && ((fromJust fingering) == p) then "|-o-" else "|---") 
+            [minp..maxp]
+        ) 
+
 
     {-
     renderInstrumentStringTastata:: Int -> Int -> InstrumentString -> String
