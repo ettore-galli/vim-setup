@@ -13,6 +13,7 @@ module Rendering.TestTextRenderingSpec (spec) where
             testRenderCapoName
             testRenderMuteOrSeparator 
             testRenderSingleString
+            testRenderInstrumentFingering
 
 
     testRenderCapoName :: Spec
@@ -48,3 +49,15 @@ module Rendering.TestTextRenderingSpec (spec) where
                 (renderSingleString (Just 0) 2 5) `shouldBe` "0 |---|---|---|---"
             it "Fretted" $ do
                 (renderSingleString (Just 3) 2 5) `shouldBe` "  |---|-o-|---|---"             
+
+
+    testRenderInstrumentFingering :: Spec
+    testRenderInstrumentFingering = do
+        describe "testRenderInstrumentFingering" $ do
+            it "Example 1" $ do
+                (
+                    renderInstrumentFingering 
+                    [(TunedString 7 (Just 1)), (TunedString 0 (Just 2)), (TunedString 4 (Just 3)), (TunedString 9 (Just 4))]
+                    1 6
+                    ) `shouldBe` "  |-o-|---|---|---|---|---\n  |---|-o-|---|---|---|---\n  |---|---|-o-|---|---|---\n  |---|---|---|-o-|---|---\n"
+           

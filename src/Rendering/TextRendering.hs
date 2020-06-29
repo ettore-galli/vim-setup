@@ -2,6 +2,7 @@
 module Rendering.TextRendering where
 
     import Core.Model 
+    import Core.ChordCalculator
     import Data.Maybe
 
     newLine :: String
@@ -32,6 +33,18 @@ module Rendering.TextRendering where
             [minp..maxp]
         ) 
 
+    renderInstrumentFingering :: Instrument -> Int -> Int -> String
+    renderInstrumentFingering [] _ _ = ""
+    renderInstrumentFingering (s : ss) minp maxp =
+        (renderSingleString (fingering s) minp maxp) ++ "\n" ++ (renderInstrumentFingering ss minp maxp)
+
+
+    renderFingering :: String -> Instrument -> String
+    renderFingering label instrument = (show label) ++ 
+        (renderCapoName minp) ++
+        (renderInstrumentFingering instrument minp maxp) 
+        where minp = getMinPosition instrument
+              maxp = getMaxPosition instrument
 
     {-
     renderInstrumentStringTastata:: Int -> Int -> InstrumentString -> String
