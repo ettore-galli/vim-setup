@@ -78,7 +78,7 @@ module Core.TestChordCalculatorSpec (spec) where
     instrumentFingeringTestCases :: [(String, Instrument, [Fingering], Instrument)]
     instrumentFingeringTestCases = [
         (
-                "String 1", 
+            "String 1", 
             [(TunedString 7 Nothing), (TunedString 0 Nothing), (TunedString 4 Nothing), (TunedString 9 Nothing)], 
             [(Just 3), Nothing, Nothing, Nothing], 
             [(TunedString 7 (Just 3)), (TunedString 0 Nothing), (TunedString 4 Nothing), (TunedString 9 Nothing)]

@@ -8,6 +8,9 @@ module Rendering.TextRendering where
     newLine :: String
     newLine = "\r\n"
 
+    separator :: String
+    separator = "  "
+
     {-|
     Render the capo
     -}
@@ -22,7 +25,7 @@ module Rendering.TextRendering where
     renderMuteOrSeparator :: Fingering -> String
     renderMuteOrSeparator Nothing  = "X "
     renderMuteOrSeparator (Just 0) = "0 "
-    renderMuteOrSeparator (Just n) = "  "
+    renderMuteOrSeparator (Just n) = separator
 
     renderSingleString :: Fingering -> Int -> Int -> String
     renderSingleString fingering minp maxp = 
@@ -39,50 +42,11 @@ module Rendering.TextRendering where
          (renderInstrumentFingering ss minp maxp) ++ "\n" ++ (renderSingleString (fingering s) minp maxp) 
 
 
-    renderFingering :: String -> Instrument -> String
-    renderFingering label instrument = (show label) ++ 
-        (renderCapoName minp) ++
+    renderChord :: String -> Instrument -> String
+    renderChord label instrument = separator ++ label ++  "\n" ++
+        separator ++ (renderCapoName minp) ++  
         (renderInstrumentFingering instrument minp maxp) 
         where minp = getMinPosition instrument
-              maxp = getMaxPosition instrument
-
-    {-
-    renderInstrumentStringTastata:: Int -> Int -> InstrumentString -> String
-    renderInstrumentStringTastata minp mp c = if mp >= minp 
-                                    then 
-                                        (renderInstrumentStringTastata minp (mp - 1) c) 
-                                        ++ (if (mp == getFretPosition c) then "|-o-" else "|---")
-                                    else " "    
-
-
-    renderInstrumentStringMuta:: Int -> Int -> String
-    renderInstrumentStringMuta minp mp = if mp >= minp 
-                                    then 
-                                        (renderInstrumentStringMuta minp (mp - 1)) ++  "|---"
-                                    else "X"  
-
-
-    renderInstrumentString :: Int -> Int -> InstrumentString -> String
-    renderInstrumentString minp maxp c = (show $ stringNumber c) ++ ": " ++ 
-        if (fingeredFret c) == X then renderInstrumentStringMuta minp maxp 
-        else renderInstrumentStringTastata minp maxp c
-    
-
+              maxp = max (getMaxPosition instrument) (minp + 4)
 
     
-
-    renderFrettedInstrument :: String -> FrettedInstrument -> String
-    renderFrettedInstrument _ [] = ""
-    renderFrettedInstrument descr s = descr ++ "  " ++ (short s) ++ newLine ++
-                                "     " ++ (renderCapo minp) ++ newLine ++ 
-                                renderRun minp maxp s
-        where minp = getMinPos s
-                maxp = minp + 5   
-                renderRun :: Int -> Int -> FrettedInstrument -> String
-                renderRun _ _ [] = ""
-                renderRun minp maxp (s:ss) = (renderRun minp maxp ss) ++ (renderInstrumentString minp maxp s) ++ newLine
-
-    short :: FrettedInstrument -> String
-    short [] = ""
-    short (s:ss) = (if (fingeredFret s == X) then "X" else (show $ getFretPosition s)) ++ "." ++ (short ss)
-    -}

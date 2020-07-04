@@ -59,5 +59,5 @@ module Rendering.TestTextRenderingSpec (spec) where
                     renderInstrumentFingering 
                     [(TunedString 7 (Just 1)), (TunedString 0 (Just 2)), (TunedString 4 (Just 3)), (TunedString 9 (Just 4))]
                     1 6
-                    ) `shouldBe` "  |-o-|---|---|---|---|---\n  |---|-o-|---|---|---|---\n  |---|---|-o-|---|---|---\n  |---|---|---|-o-|---|---\n"
+                    ) `shouldBe` "\n  |---|---|---|-o-|---|---\n  |---|---|-o-|---|---|---\n  |---|-o-|---|---|---|---\n  |-o-|---|---|---|---|---"
            

@@ -18,6 +18,7 @@ module Demo.Showcase where
 
     demo = do 
             putStrLn "DEMO"
-            forM_  showcases (\(descr, instrument) ->
-                    putStrLn $ renderFingering descr instrument
+            forM_  showcases (\(descr, instrument) -> do
+                    putStrLn $ renderChord descr instrument
+                    putStrLn ""
                 )
