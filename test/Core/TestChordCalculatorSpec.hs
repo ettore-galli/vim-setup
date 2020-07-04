@@ -150,6 +150,8 @@ module Core.TestChordCalculatorSpec (spec) where
                 (getMinPosition [(TunedString 7 Nothing), (TunedString 0 (Just 5)), (TunedString 4 Nothing), (TunedString 9 (Just 3))]) `shouldBe` 3
             it "Interleaved case reversed" $ do
                 (getMinPosition [(TunedString 7 Nothing), (TunedString 0 (Just 3)), (TunedString 4 Nothing), (TunedString 9 (Just 5))]) `shouldBe` 3
+            it "With Open Strings" $ do
+                (getMinPosition [(TunedString 7 Nothing), (TunedString 0 (Just 3)), (TunedString 4 (Just 0)), (TunedString 9 (Just 5))]) `shouldBe` 3
 
     testGetMaxPosition :: Spec
     testGetMaxPosition = do

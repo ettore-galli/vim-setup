@@ -19,6 +19,7 @@ main = do
 -}
 
 import Core.Model
+import Demo.Showcase
 
 main = do 
-        putStrLn $ show (Just 6)
+        demo

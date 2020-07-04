@@ -36,7 +36,7 @@ module Rendering.TextRendering where
     renderInstrumentFingering :: Instrument -> Int -> Int -> String
     renderInstrumentFingering [] _ _ = ""
     renderInstrumentFingering (s : ss) minp maxp =
-        (renderSingleString (fingering s) minp maxp) ++ "\n" ++ (renderInstrumentFingering ss minp maxp)
+         (renderInstrumentFingering ss minp maxp) ++ "\n" ++ (renderSingleString (fingering s) minp maxp) 
 
 
     renderFingering :: String -> Instrument -> String

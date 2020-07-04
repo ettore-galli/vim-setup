@@ -1,5 +1,6 @@
 module Core.ChordCalculator where
 
+    import Data.Maybe
     import Core.Model
     import Core.KnownInstruments
 
@@ -68,14 +69,10 @@ module Core.ChordCalculator where
     parseFingeringsFromList fingerings = map (\t -> parseFingering t) (words fingerings)
 
     getMinPosition :: Instrument -> Int
-    getMinPosition [(TunedString _ (Just n))] = n
-    getMinPosition ((TunedString _ Nothing):ss) = getMinPosition ss
-    getMinPosition ((TunedString _ (Just n)):ss) = min n (getMinPosition ss) 
+    getMinPosition instrument = minimum $ filter (\n -> n > 0) $ map (\(TunedString _ j) -> if isJust j then fromJust j else 0) instrument
 
     getMaxPosition :: Instrument -> Int
-    getMaxPosition [(TunedString _ (Just n))] = n
-    getMaxPosition ((TunedString _ Nothing):ss) = getMaxPosition ss
-    getMaxPosition ((TunedString _ (Just n)):ss) = max n (getMaxPosition ss)
+    getMaxPosition instrument = maximum $ map (\(TunedString _ j) -> if isJust j then fromJust j else 0) instrument
 
     findIntervalOnTunedString :: TunedString -> Interval -> TunedString
     findIntervalOnTunedString string interval = undefined
