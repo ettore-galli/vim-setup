@@ -17,6 +17,8 @@ module Core.TestChordCalculatorSpec (spec) where
             testParseFingeringsFromList
             testGetMinPosition
             testGetMaxPosition
+            testCalculateFingeringforInterval
+            testFindFingeringForIntervalOnTunedString
 
     fingeringTestCases :: [(String, TunedString, Fingering, TunedString)]
     fingeringTestCases = [
@@ -162,3 +164,53 @@ module Core.TestChordCalculatorSpec (spec) where
                 (getMaxPosition [(TunedString 7 Nothing), (TunedString 0 (Just 5)), (TunedString 4 Nothing), (TunedString 9 (Just 3))]) `shouldBe` 5
             it "Interleaved case reversed" $ do
                 (getMaxPosition [(TunedString 7 Nothing), (TunedString 0 (Just 3)), (TunedString 4 Nothing), (TunedString 9 (Just 7))]) `shouldBe` 7
+
+    calculateFingeringforIntervalTestCases :: [(String, Tuning, Fingering, Tuning, Interval, Fingering)]
+    calculateFingeringforIntervalTestCases = [
+        ("Major Third tunings/Unison",      0, (Just 5), 4, 0, (Just 1)),
+        ("Major Third tunings/Second",      0, (Just 5), 4, 2, (Just 3)),
+        ("Major Third tunings/Minor Third", 0, (Just 5), 4, 3, (Just 4)),
+        ("Major Third tunings/Major Third", 0, (Just 5), 4, 4, (Just 5)),
+        ("Major Third tunings/Fourth",      0, (Just 5), 4, 5, (Just 6)),
+        ("Major Third tunings/Fifth",       0, (Just 5), 4, 7, (Just 8)),
+        ("Fourths tunings/Unison",          0, (Just 5), 5, 0, (Just 0)),
+        ("Fourths tunings/Second",          0, (Just 5), 5, 2, (Just 2)),
+        ("Fourths tunings/Minor Third",     0, (Just 5), 5, 3, (Just 3)),
+        ("Fourths tunings/Major Third",     0, (Just 5), 5, 4, (Just 4)),
+        ("Fourths tunings/Fourth",          0, (Just 5), 5, 5, (Just 5)),
+        ("Fourths tunings/Fifth",           0, (Just 5), 5, 7, (Just 7))
+        ] 
+
+    testCalculateFingeringforInterval :: Spec
+    testCalculateFingeringforInterval = do
+        describe "testCalculateFingeringforInterval" $
+            forM_  
+                calculateFingeringforIntervalTestCases $
+                \(descr, baseTuning, baseFingering, stringTuning, interval, expected) -> 
+                    it descr $ do
+                        (calculateFingeringforInterval baseTuning baseFingering stringTuning interval) `shouldBe` expected
+
+
+    stringIntervalsTestCases = [
+        ("Major Third tunings/Unison", (TunedString 0 (Just 5)), (TunedString 4 Nothing), 0, (TunedString 4 (Just 1))),
+        ("Major Third tunings/Second", (TunedString 0 (Just 5)), (TunedString 4 Nothing), 2, (TunedString 4 (Just 3))),
+        ("Major Third tunings/Minor Third", (TunedString 0 (Just 5)), (TunedString 4 Nothing), 3, (TunedString 4 (Just 4))),
+        ("Major Third tunings/Major Third", (TunedString 0 (Just 5)), (TunedString 4 Nothing), 4, (TunedString 4 (Just 5))),
+        ("Major Third tunings/Fourth", (TunedString 0 (Just 5)), (TunedString 4 Nothing), 5, (TunedString 4 (Just 6))),
+        ("Major Third tunings/Fifth", (TunedString 0 (Just 5)), (TunedString 4 Nothing), 7, (TunedString 4 (Just 8))),
+        ("Fourths tunings/Unison", (TunedString 0 (Just 5)), (TunedString 5 Nothing), 0, (TunedString 5 (Just 0))),
+        ("Fourths tunings/Second", (TunedString 0 (Just 5)), (TunedString 5 Nothing), 2, (TunedString 5 (Just 2))),
+        ("Fourths tunings/Minor Third", (TunedString 0 (Just 5)), (TunedString 5 Nothing), 3, (TunedString 5 (Just 3))),
+        ("Fourths tunings/Major Third", (TunedString 0 (Just 5)), (TunedString 5 Nothing), 4, (TunedString 5 (Just 4))),
+        ("Fourths tunings/Fourth", (TunedString 0 (Just 5)), (TunedString 5 Nothing), 5, (TunedString 5 (Just 5))),
+        ("Fourths tunings/Fifth", (TunedString 0 (Just 5)), (TunedString 5 Nothing), 7, (TunedString 5 (Just 7)))
+        ] 
+
+    testFindFingeringForIntervalOnTunedString :: Spec
+    testFindFingeringForIntervalOnTunedString = do
+        describe "testFindfingeringForIntervalOnTunedString" $
+            forM_  
+                stringIntervalsTestCases $
+                \(descr, baseNoteTunedString, searchTunedString, interval, expected) -> 
+                    it descr $ do
+                        (findFingeringForIntervalOnTunedString baseNoteTunedString searchTunedString interval) `shouldBe` expected

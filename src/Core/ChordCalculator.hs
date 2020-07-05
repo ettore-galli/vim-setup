@@ -68,17 +68,45 @@ module Core.ChordCalculator where
     parseFingeringsFromList :: String -> [Fingering]
     parseFingeringsFromList fingerings = map (\t -> parseFingering t) (words fingerings)
 
+    {-|
+    Get minimum position (open string excluded)
+    -}
     getMinPosition :: Instrument -> Int
     getMinPosition instrument = minimum $ filter (\n -> n > 0) $ map (\(TunedString _ j) -> if isJust j then fromJust j else 0) instrument
 
+    {-|
+    Get maximum position
+    -}
     getMaxPosition :: Instrument -> Int
     getMaxPosition instrument = maximum $ map (\(TunedString _ j) -> if isJust j then fromJust j else 0) instrument
 
-    findIntervalOnTunedString :: TunedString -> Interval -> TunedString
-    findIntervalOnTunedString string interval = undefined
 
+    calculateFingeringforInterval :: Tuning -> Fingering -> Tuning -> Interval -> Fingering
+    calculateFingeringforInterval baseTuning baseFingering stringTuning interval = Just position
+        where
+            baseNote = baseTuning + fromJust baseFingering
+            desiredNote = (baseNote + interval) `mod` 12
+            position = (desiredNote - stringTuning) `mod` 12
+
+    {-|
+ 
+
+    tuning + fingering = baseNote + interval
+
+    -}
+    findFingeringForIntervalOnTunedString :: TunedString -> TunedString -> Interval -> TunedString
+    findFingeringForIntervalOnTunedString baseNoteTunedString searchTunedString interval  = searchTunedString{
+            fingering = calculateFingeringforInterval (tuning baseNoteTunedString) (fingering baseNoteTunedString) (tuning searchTunedString) interval
+        }
+
+    {-|
+    find a interval on an instrument
+    -}
     findIntervalOnInstrument :: Instrument -> Interval -> Instrument
     findIntervalOnInstrument instrument interval = undefined
 
+    {-|
+    TODO: ???
+    -}
     addIntervalToTuningtry :: Tuning -> Interval -> Tuning
     addIntervalToTuningtry a b = a + b 

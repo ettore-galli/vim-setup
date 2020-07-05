@@ -11,6 +11,11 @@ module Core.Model where
     type Tuning = Int  
 
     {-| 
+    Note in semitones
+    -}
+    type Note = Int  
+
+    {-| 
     A single string, the way it is tuned and how it is fingered.
     tuning: The tuning expressed in arbitrary relative semitones 
             (e.g. the lowest tuned string might be 0)
