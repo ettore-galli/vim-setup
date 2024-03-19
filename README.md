@@ -1,2 +1,3 @@
-# Chords
-Chords calulator
+# Vim Setup
+
+Setup VIM for development
