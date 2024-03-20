@@ -2,6 +2,10 @@
 
 Setup VIM for development
 
+## Documentation
+
+https://scrivocodice.it/vim-ide-sviluppo-python/
+
 ## Rebuild image
 
 ```docker build -f ci/Dockerfile --tag vim-ide .```
