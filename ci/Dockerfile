@@ -3,20 +3,20 @@ FROM ubuntu
 
 RUN groupadd -g 1001 vimuser
 
+RUN apt-get update && \  
+    apt-get install -y git vim sudo
+
 RUN useradd -m \
     -d /var/vimuser \
     -s /usr/bin/bash \
     -g vimuser \
-    -p s3gr374! \
+    -G sudo \
     -u 1001 \
     vimuser
- 
 
-RUN apt-get update && \  
-    apt-get install -y git vim 
+RUN echo "vimuser:password" | chpasswd
 
-
-USER vimuser:vimuser
+USER vimuser:sudo
 
 WORKDIR /var/vimuser
 

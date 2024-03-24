@@ -1,6 +1,12 @@
 set nocompatible              " obbligatorio
 filetype off                  " obbligatorio
 
+" numeri
+set number
+
+" Highlight sintassi
+set syntax=on
+
 " imposta percorso Vundle di runtime e inizializza Vundle
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
