@@ -4,6 +4,21 @@ filetype off                  " obbligatorio
 " numeri
 set number
 
+" Codifica
+set encoding=utf-8
+
+" Indentazione
+:set shiftwidth=4
+:set tabstop=4
+:set expandtab
+
+" Scroll, wrap, ...
+:set nowrap
+:set sidescroll=16
+
+" Parentesi
+:set showmatch
+
 " Highlight sintassi
 set syntax=on
 
