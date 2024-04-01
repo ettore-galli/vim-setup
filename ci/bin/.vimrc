@@ -42,6 +42,17 @@ au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
 " Rimappature tasti
 map <C-n> :NERDTreeToggle<CR>
 
+" Status git 
+" https://shapeshed.com/vim-statuslines/
+" https://www.reddit.com/r/vim/comments/pq3xwa/how_to_get_the_git_branch_in_the_statusline/
+function GitBranch()
+    return trim(system("git branch --show-current"))
+endfunction
+
+set laststatus=2
+set statusline=%m\%y\ %.100F\ %{GitBranch()}\ %=%(B:%n\ R:%l:%L\ C:%c\ %P\ %h%)
+
+
 " imposta percorso Vundle di runtime e inizializza Vundle
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -68,11 +79,6 @@ Plugin 'altercation/vim-colors-solarized'
 " call togglebg#map("<F5>")
 
 Plugin 'tpope/vim-fugitive'
-
-" Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
-Plugin 'powerline/powerline'
-Plugin 'powerline/powerline-fonts'
-set laststatus=2
 
 call vundle#end()            " required
 filetype plugin indent on    " required
