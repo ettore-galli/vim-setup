@@ -1,5 +1,5 @@
-set nocompatible              " obbligatorio
-filetype off                  " obbligatorio
+@REM set nocompatible              " obbligatorio
+@REM filetype off                  " obbligatorio
 
 " numeri
 set number
@@ -42,43 +42,50 @@ au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
 " Rimappature tasti
 map <C-n> :NERDTreeToggle<CR>
 
-" Status git 
-" https://shapeshed.com/vim-statuslines/
-" https://www.reddit.com/r/vim/comments/pq3xwa/how_to_get_the_git_branch_in_the_statusline/
-function GitBranch()
-    return trim(system("git branch --show-current"))
-endfunction
+" Colori
+set t_Co=256
 
-set laststatus=2
-set statusline=%m\%y\ %.100F\ %{GitBranch()}\ %=%(B:%n\ R:%l:%L\ C:%c\ %P\ %h%)
+" Airline setup
+let g:airline_powerline_fonts = 0
+let g:airline_symbols = {}
+let g:airline_symbols_ascii = 1
 
+@REM " Status git 
+@REM " https://shapeshed.com/vim-statuslines/
+@REM " https://www.reddit.com/r/vim/comments/pq3xwa/how_to_get_the_git_branch_in_the_statusline/
+@REM function GitBranch()
+@REM     return trim(system("git branch --show-current"))
+@REM endfunction
 
-" imposta percorso Vundle di runtime e inizializza Vundle
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+@REM set laststatus=2
+@REM set statusline=%m\%y\ %.100F\ %{GitBranch()}\ %=%(B:%n\ R:%l:%L\ C:%c\ %P\ %h%)
 
-" abilita la gestione pacchetti con Vundle
-Plugin 'gmarik/Vundle.vim'
+@REM " imposta percorso Vundle di runtime e inizializza Vundle
+@REM set rtp+=~/.vim/bundle/Vundle.vim
+@REM call vundle#begin()
 
-" Tutti i plugin devono essere inseriti tra vundle#begin e vundle#end
+@REM " abilita la gestione pacchetti con Vundle
+@REM Plugin 'gmarik/Vundle.vim'
 
-" NerdTree (https://github.com/preservim/nerdtree)
-Plugin 'preservim/nerdtree' 
-"Plugin 'Xuyuanp/nerdtree-git-plugin'
-"Plugin 'ryanoasis/vim-devicons'
-Plugin 'jistr/vim-nerdtree-tabs'
-" let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
+@REM " Tutti i plugin devono essere inseriti tra vundle#begin e vundle#end
 
-Plugin 'vim-syntastic/syntastic'
-Plugin 'nvie/vim-flake8'
-let python_highlight_all=1
-syntax on
+@REM " NerdTree (https://github.com/preservim/nerdtree)
+@REM Plugin 'preservim/nerdtree' 
+@REM "Plugin 'Xuyuanp/nerdtree-git-plugin'
+@REM "Plugin 'ryanoasis/vim-devicons'
+@REM Plugin 'jistr/vim-nerdtree-tabs'
+@REM " let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
 
-Plugin 'jnurmine/Zenburn'
-Plugin 'altercation/vim-colors-solarized'
-" call togglebg#map("<F5>")
+@REM Plugin 'vim-syntastic/syntastic'
+@REM Plugin 'nvie/vim-flake8'
+@REM let python_highlight_all=1
+@REM syntax on
 
-Plugin 'tpope/vim-fugitive'
+@REM Plugin 'jnurmine/Zenburn'
+@REM Plugin 'altercation/vim-colors-solarized'
+@REM " call togglebg#map("<F5>")
 
-call vundle#end()            " required
-filetype plugin indent on    " required
+@REM Plugin 'tpope/vim-fugitive'
+
+@REM call vundle#end()            " required
+@REM filetype plugin indent on    " required

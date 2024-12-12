@@ -28,11 +28,23 @@ USER vimuser:sudo
 
 WORKDIR /var/vimuser
 
-RUN git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+ENV VIM_PACK_BASE=.vim/pack
+
+ENV VIM_PACK_COLORSCHEMES=$VIM_PACK_BASE/colorschemes/start
+ENV VIM_PACK_SYNTAX=$VIM_PACK_BASE/syntax/start
+ENV VIM_PACK_OTHERS=$VIM_PACK_BASE/others/start
+
+RUN mkdir -p $VIM_PACK_BASE \
+    && mkdir -p $VIM_PACK_COLORSCHEMES \
+    && mkdir -p $VIM_PACK_SYNTAX \
+    && mkdir -p $VIM_PACK_OTHERS
+
+RUN git -C $VIM_PACK_OTHERS clone https://github.com/preservim/nerdtree \
+&& git -C $VIM_PACK_OTHERS clone https://github.com/vim-airline/vim-airline \
+&& git -C $VIM_PACK_COLORSCHEMES clone https://github.com/vim-airline/vim-airline-themes \
+&& git -C $VIM_PACK_COLORSCHEMES clone https://github.com/dracula/dracula-theme 
 
 COPY ci/bin/entrypoint /var/vimuser/entrypoint
 COPY ci/bin/.vimrc     /var/vimuser/.vimrc
-
-RUN vim +PluginInstall +qall
 
 ENTRYPOINT ["/var/vimuser/entrypoint"]
