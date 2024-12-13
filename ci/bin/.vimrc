@@ -23,7 +23,7 @@ set encoding=utf-8
 set syntax=on
 
 " Code editing
-au BufNewFile,BufRead *.py
+au BufNewFile, BufRead *.py
     \ set tabstop=4
     \ set softtabstop=4
     \ set shiftwidth=4
@@ -32,12 +32,12 @@ au BufNewFile,BufRead *.py
     \ set autoindent
     \ set fileformat=unix
 
-au BufNewFile,BufRead *.js, *.html, *.css
+au BufNewFile, BufRead *.js, *.html, *.css
     \ set tabstop=2
     \ set softtabstop=2
     \ set shiftwidth=2
 
-au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+au BufRead, BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
 
 " Rimappature tasti
 map <C-n> :NERDTreeToggle<CR>
@@ -46,6 +46,7 @@ map <C-n> :NERDTreeToggle<CR>
 set t_Co=16777216
 
 " Attiva il tema scelto
+syntax enable
 colorscheme dracula
 
 " Airline setup
