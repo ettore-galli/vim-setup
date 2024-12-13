@@ -43,7 +43,10 @@ au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
 map <C-n> :NERDTreeToggle<CR>
 
 " Colori
-set t_Co=256
+set t_Co=16777216
+
+" Attiva il tema scelto
+colorscheme dracula
 
 " Airline setup
 let g:airline_powerline_fonts = 0

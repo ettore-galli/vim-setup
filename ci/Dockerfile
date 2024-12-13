@@ -30,19 +30,17 @@ WORKDIR /var/vimuser
 
 ENV VIM_PACK_BASE=.vim/pack
 
-ENV VIM_PACK_COLORSCHEMES=$VIM_PACK_BASE/colorschemes/start
-ENV VIM_PACK_SYNTAX=$VIM_PACK_BASE/syntax/start
-ENV VIM_PACK_OTHERS=$VIM_PACK_BASE/others/start
+ENV VIM_PACK_PLUGINS=$VIM_PACK_BASE/plugins/start
+ 
 
 RUN mkdir -p $VIM_PACK_BASE \
-    && mkdir -p $VIM_PACK_COLORSCHEMES \
-    && mkdir -p $VIM_PACK_SYNTAX \
-    && mkdir -p $VIM_PACK_OTHERS
+    && mkdir -p $VIM_PACK_PLUGINS
 
-RUN git -C $VIM_PACK_OTHERS clone https://github.com/preservim/nerdtree \
-&& git -C $VIM_PACK_OTHERS clone https://github.com/vim-airline/vim-airline \
-&& git -C $VIM_PACK_COLORSCHEMES clone https://github.com/vim-airline/vim-airline-themes \
-&& git -C $VIM_PACK_COLORSCHEMES clone https://github.com/dracula/dracula-theme 
+RUN git -C $VIM_PACK_PLUGINS clone https://github.com/preservim/nerdtree \
+&& git -C $VIM_PACK_PLUGINS clone https://github.com/vim-airline/vim-airline \
+&& git -C $VIM_PACK_PLUGINS clone https://github.com/vim-airline/vim-airline-themes \
+&& git -C $VIM_PACK_PLUGINS clone https://github.com/dracula/vim.git \
+&& git -C $VIM_PACK_PLUGINS clone https://github.com/christianrickert/vim-firefly.git 
 
 COPY ci/bin/entrypoint /var/vimuser/entrypoint
 COPY ci/bin/.vimrc     /var/vimuser/.vimrc
