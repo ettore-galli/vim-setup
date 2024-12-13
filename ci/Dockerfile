@@ -1,7 +1,5 @@
 FROM ubuntu
 
-RUN groupadd -g 1001 vimuser
-
 RUN apt-get update && \  
     apt-get install -y \
     git \
@@ -11,6 +9,7 @@ RUN apt-get update && \
     python3 \
     python3-pip
 
+RUN groupadd -g 1001 vimuser    
 RUN useradd -m \
     -d /var/vimuser \
     -s /usr/bin/bash \
