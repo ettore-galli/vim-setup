@@ -1,6 +1,5 @@
 FROM ubuntu
 
-
 RUN groupadd -g 1001 vimuser
 
 RUN apt-get update && \  
@@ -12,7 +11,6 @@ RUN apt-get update && \
     python3 \
     python3-pip
 
-
 RUN useradd -m \
     -d /var/vimuser \
     -s /usr/bin/bash \
@@ -20,7 +18,6 @@ RUN useradd -m \
     -G sudo \
     -u 1001 \
     vimuser
-
 
 RUN echo "vimuser:password" | chpasswd
 
@@ -31,7 +28,6 @@ WORKDIR /var/vimuser
 ENV VIM_PACK_BASE=.vim/pack
 
 ENV VIM_PACK_PLUGINS=$VIM_PACK_BASE/plugins/start
- 
 
 RUN mkdir -p $VIM_PACK_BASE \
     && mkdir -p $VIM_PACK_PLUGINS

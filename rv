@@ -1,4 +1,4 @@
 docker run \
     -it \
-    -v ./workspace:/var/vimuser/workspace \
-    vim-ide bash 
+    -v .:/var/vimuser/workspace \
+    vim-ide
