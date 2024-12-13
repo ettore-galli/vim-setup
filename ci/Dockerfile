@@ -11,13 +11,13 @@ RUN apt-get update && \
     python3 \
     python3-pip
 
-RUN groupadd -g 1001 ${USER}    
+RUN groupadd -g 501 ${USER}    
 RUN useradd -m \
     -d /var/${USER} \
     -s /usr/bin/bash \
     -g ${USER} \
     -G sudo \
-    -u 1001 \
+    -u 501 \
     ${USER}
 
 RUN echo "${USER}:password" | chpasswd
