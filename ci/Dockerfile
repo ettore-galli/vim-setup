@@ -32,10 +32,9 @@ RUN mkdir -p $VIM_PACK_BASE \
     && mkdir -p $VIM_PACK_PLUGINS
 
 RUN git -C $VIM_PACK_PLUGINS clone https://github.com/preservim/nerdtree \
-&& git -C $VIM_PACK_PLUGINS clone https://github.com/vim-airline/vim-airline \
-&& git -C $VIM_PACK_PLUGINS clone https://github.com/vim-airline/vim-airline-themes \
-&& git -C $VIM_PACK_PLUGINS clone https://github.com/dracula/vim.git \
-&& git -C $VIM_PACK_PLUGINS clone https://github.com/christianrickert/vim-firefly.git 
+&& git -C $VIM_PACK_PLUGINS clone https://github.com/itchyny/vim-gitbranch.git \
+&& git -C $VIM_PACK_PLUGINS clone https://github.com/itchyny/lightline.vim \
+&& git -C $VIM_PACK_PLUGINS clone https://github.com/dracula/vim.git 
 
 COPY ci/bin/entrypoint /var/vimdev/entrypoint
 COPY ci/bin/.vimrc     /var/vimdev/.vimrc

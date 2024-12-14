@@ -49,7 +49,16 @@ set t_Co=16777216
 syntax enable
 colorscheme dracula
 
-" Airline setup
-let g:airline_powerline_fonts = 0
-let g:airline_symbols = {}
-let g:airline_symbols_ascii = 1
+" Lightline setup
+set laststatus=2
+
+
+let g:lightline = {
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'gitbranch#name'
+      \ },
+      \ }
