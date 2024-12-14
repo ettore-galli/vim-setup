@@ -3,5 +3,4 @@
 docker run \
     -it \
     -v .:/var/vimdev/workspace \
-    -v ~/.gitconfig:/var/vimdev/.gitconfig \
     vim-ide

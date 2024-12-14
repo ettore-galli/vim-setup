@@ -1,3 +1,4 @@
 #!/bin/bash
 
-cd ~ && exec bash
+git config --global --add safe.directory ~/workspace
+cd ~/workspace && exec bash

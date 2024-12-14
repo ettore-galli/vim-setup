@@ -1,7 +1,5 @@
 FROM ubuntu
 
-ENV USER=vimdev
-
 RUN apt-get update && \  
     apt-get install -y \
     git \
@@ -11,20 +9,20 @@ RUN apt-get update && \
     python3 \
     python3-pip
 
-RUN groupadd -g 501 ${USER}    
+RUN groupadd -g 501 vimdev    
 RUN useradd -m \
-    -d /var/${USER} \
+    -d /var/vimdev \
     -s /usr/bin/bash \
-    -g ${USER} \
+    -g vimdev \
     -G sudo \
     -u 501 \
-    ${USER}
+    vimdev
 
-RUN echo "${USER}:password" | chpasswd
+RUN echo "vimdev:password" | chpasswd
 
-USER ${USER}:sudo
+USER vimdev:sudo
 
-WORKDIR /var/${USER}
+WORKDIR /var/vimdev
 
 ENV VIM_PACK_BASE=.vim/pack
 
@@ -39,7 +37,7 @@ RUN git -C $VIM_PACK_PLUGINS clone https://github.com/preservim/nerdtree \
 && git -C $VIM_PACK_PLUGINS clone https://github.com/dracula/vim.git \
 && git -C $VIM_PACK_PLUGINS clone https://github.com/christianrickert/vim-firefly.git 
 
-COPY ci/bin/entrypoint /var/${USER}/entrypoint
-COPY ci/bin/.vimrc     /var/${USER}/.vimrc
+COPY ci/bin/entrypoint /var/vimdev/entrypoint
+COPY ci/bin/.vimrc     /var/vimdev/.vimrc
 
-ENTRYPOINT ["sh", "-c", "/var/${USER}/entrypoint"]
+ENTRYPOINT ["/var/vimdev/entrypoint"]
