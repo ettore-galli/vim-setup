@@ -15,6 +15,8 @@ Setup VIM for development
 <https://linuxconfig.org/how-to-manage-vim-plugins-natively>
 <https://medium.com/@adwalkz/unleashing-vim-magic-a-guide-to-installing-plugins-without-a-plugin-manager-9206627ce37e>
 
+<https://newbilityvery.github.io/2017/08/04/switch-to-lightline/>
+
 ## Rebuild image
 
 ```docker build -f ci/Dockerfile --tag vim-ide .```
