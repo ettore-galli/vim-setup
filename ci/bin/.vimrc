@@ -1,64 +1,39 @@
-set nocompatible              " obbligatorio
-filetype off                  " obbligatorio
+call plug#begin('~/.vim/plugged')
 
-" numeri
-set number
+" Plugin manager
+Plug 'junegunn/vim-plug'
 
-" Codifica
+" Python IDE essentials
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'dense-analysis/ale'
+Plug 'vim-airline/vim-airline'
+Plug 'preservim/nerdtree'
+Plug 'vim-python/python-syntax'
+Plug 'tpope/vim-fugitive'
+
+call plug#end()
+
+" Impostazioni base
+syntax on
+filetype plugin indent on
+set number relativenumber
+set tabstop=4 shiftwidth=4 expandtab
+set clipboard=unnamedplus
+set mouse=a
 set encoding=utf-8
+set termguicolors
 
-" Indentazione
-:set shiftwidth=4
-:set tabstop=4
-:set expandtab
+" COC (autocompletamento)
+let g:coc_global_extensions = ['coc-pyright']
 
-" Scroll, wrap, ...
-:set nowrap
-:set sidescroll=16
+" ALE (linting)
+let g:ale_linters = {'python': ['flake8']}
+let g:ale_fixers = {'python': ['autopep8']}
+let g:ale_python_flake8_executable = 'flake8'
+let g:ale_fix_on_save = 1
 
-" Parentesi
-:set showmatch
+" Airline
+let g:airline#extensions#tabline#enabled = 1
 
-" Highlight sintassi
-set syntax=on
-
-" Code editing
-au BufNewFile, BufRead *.py
-    \ set tabstop=4
-    \ set softtabstop=4
-    \ set shiftwidth=4
-    \ set textwidth=79
-    \ set expandtab
-    \ set autoindent
-    \ set fileformat=unix
-
-au BufNewFile, BufRead *.js, *.html, *.css
-    \ set tabstop=2
-    \ set softtabstop=2
-    \ set shiftwidth=2
-
-au BufRead, BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
-
-" Rimappature tasti
-map <C-n> :NERDTreeToggle<CR>
-
-" Colori
-set t_Co=16777216
-
-" Attiva il tema scelto
-syntax enable
-colorscheme dracula
-
-" Lightline setup
-set laststatus=2
-
-
-let g:lightline = {
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-      \ },
-      \ 'component_function': {
-      \   'gitbranch': 'gitbranch#name'
-      \ },
-      \ }
+" NERDTree toggle
+nnoremap <C-n> :NERDTreeToggle<CR>
