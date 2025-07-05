@@ -1,5 +1,7 @@
 FROM ubuntu
 
+# ---------- BASE ----------
+
 RUN apt-get update && \  
     apt-get install -y \
     git \
@@ -7,6 +9,7 @@ RUN apt-get update && \
     curl \
     build-essential \
     python3 \
+    python3.10-venv \
     libncurses-dev \
     python3-pip 
 
@@ -29,6 +32,8 @@ RUN echo "vimdev:password" | chpasswd
 USER vimdev:sudo
 
 WORKDIR $HOME 
+
+# ---------- VIM ----------
 
 RUN mkdir -p $HOME/vim-ide
 
@@ -56,21 +61,20 @@ ENV PATH=$PATH:$HOME/vim-ide/vim-install/bin
 COPY ci/bin/.vimrc $HOME/.vimrc
 RUN vim +'PlugInstall --sync' +qa
 
+# ---------- PYTHON ----------
 
+RUN python3 -m venv .venv && \
+    . .venv/bin/activate  && \
+    pip install --upgrade pip && \
+    pip install pipx && \
+    pipx ensurepath && \
+    pipx install ruff && \
+    pipx install mypy && \
+    pipx install black && \
+    pipx install isort && \
+    pipx install pytest
 
-# ENV VIM_PACK_BASE=.vim/pack
-
-# ENV VIM_PACK_PLUGINS=$VIM_PACK_BASE/plugins/start
-
-# RUN mkdir -p $VIM_PACK_BASE \
-#     && mkdir -p $VIM_PACK_PLUGINS
-
-# RUN git -C $VIM_PACK_PLUGINS clone https://github.com/preservim/nerdtree \
-# && git -C $VIM_PACK_PLUGINS clone https://github.com/itchyny/vim-gitbranch.git \
-# && git -C $VIM_PACK_PLUGINS clone https://github.com/itchyny/lightline.vim \
-# && git -C $VIM_PACK_PLUGINS clone https://github.com/dracula/vim.git 
+# ---------- START ---------- 
 
 COPY ci/bin/entrypoint $HOME/entrypoint
-# COPY ci/bin/.vimrc $HOME/.vimrc
-
 ENTRYPOINT ["/var/vimdev/entrypoint"]
