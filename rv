@@ -3,4 +3,6 @@
 docker run \
     -it \
     -v .:/var/vimdev/workspace \
+    --privileged \
+    -v /dev:/dev \
     vim-ide
